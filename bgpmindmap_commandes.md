@@ -8,8 +8,8 @@ markmap:
 
 - [topo transit](topo-transit.png)
 - [avant-après_nexthop_self](nexthop-self.png)
+ 
 
-- bases
 
 ```ios
 # configuration classique
@@ -30,47 +30,47 @@ router bgp  665100
 
 ```ios
 # configuration à base de loopbacks pour eBGP et iBGP
-
 interface Loopback2
  ip address 2.2.2.2 255.255.255.255
 !
 router bgp 65535
- bgp log-neighbor-changes
- bgp redistribute-internal
- network 11.0.0.0 mask 255.255.255.0
- neighbor 1.1.1.1 remote-as 65531
+   bgp log-neighbor-changes
 
- # le TTL du "packet" passe à 2 
- # afin d'atteindre la loopback 
- neighbor 1.1.1.1 ebgp-multihop 2
+   # Les routes apprises par iBGP ne sont pas retransmises pas défaut dans l'IGP 
+   # La commande suivante permet de le faire.  
+   bgp redistribute-internal
 
-# indique au routeur d'utiliser toute interface
-# opérationnelle pour établir les connexions TCP 
-# tant que Lo2 est active et
-# configurée avec une adresse IP
-# = plus de stabilité et de résilience
+   network 11.0.0.0 mask 255.255.255.0
+   #
+   neighbor 1.1.1.1 remote-as 65531
 
- neighbor 1.1.1.1 update-source Loopback2
- neighbor 5.5.5.5 remote-as 65535
- neighbor 5.5.5.5 update-source Loopback2
+   # le TTL du "packet" passe à 2 
+   # afin d'atteindre la loopback 
+   neighbor 1.1.1.1 ebgp-multihop 2
 
-# Quand une route est transmise à un routeur iBGP
-# le next-hop est un attribut BGP obligatoire
-# En faisant un "lookup" dessus on obtient l'
-# interface de sortie du routeur.
-# Quand une route BGP est transmise d'un routeur eBGP à un
-# routeur iBGP le next_hop reste inchangé.
-# Le next-hop-self devient l'IP du routeur source iBGP 
- 
- neighbor 5.5.5.5 next-hop-self
+   # indique au routeur d'utiliser toute interface
+   # opérationnelle pour établir les connexions TCP 
+   # tant que Lo2 est active et
+   # configurée avec une adresse IP
+   # = plus de stabilité et de résilience
+   neighbor 1.1.1.1 update-source Loopback2
+   # L'AS number est le même ici ce qui permet
+   # de qualifier cette session comme une session iBGP
+   neighbor 5.5.5.5 remote-as 65535
+   neighbor 5.5.5.5 update-source Loopback2
 
-# route statique obligatoire afin d'atteindre la loopback  distante
+   # Quand une route est transmise à un routeur iBGP
+   # le next-hop est un attribut BGP obligatoire
+   # En faisant un "lookup" dessus on obtient l'
+   # interface de sortie du routeur.
+   # Quand une route BGP est transmise d'un routeur eBGP à un
+   # routeur iBGP le next_hop reste inchangé.
+   # Le next-hop-self devient l'IP du routeur source iBGP 
+   neighbor 5.5.5.5 next-hop-self
 
-
+# route statique obligatoire afin d'atteindre la loopback qui
+# est derrière l'interface physique du routeur
 ip route 1.1.1.1 255.255.255.255 11.0.0.100
-
-
-
 ```
 
 ```ios
@@ -95,3 +95,11 @@ clear ip bgp 192.168.100.1 soft in|out
 debug ip tcp transactions
 debug ip bgp
 ```
+
+- biblio 
+    - Exemples config eBGP/iBGP Cisco: 
+      <https://www.cisco.com/c/en/us/support/docs/ip/border-gateway-protocol-bgp/13751-23.html>
+    - BGP fundamental Cisco: 
+      <https://www.ciscopress.com/articles/article.asp?p=2756480&seqNum=7>
+    - Configure iBGP:
+      <https://www.mustbegeek.com/configure-ibgp-in-cisco-ios-router>

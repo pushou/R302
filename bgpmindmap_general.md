@@ -10,13 +10,13 @@ markmap:
 
 ## Caractéristiques
 
- - La métrique de BGP est de type "distance-vector" et correspond au nombre d'AS traversées. L'attribut de chemins "AS_PATH" qui contient les AS traversées permet (mais il n'est pas le seul) à BGP de choisir
-- pas de hello packets donc nécessité de déclarer l'IP du voisin
+- La métrique de BGP est de type "distance-vector" et correspond au nombre d'AS traversées. L'attribut de chemins "AS_PATH" qui contient les AS traversées permet (mais il n'est pas le seul) à BGP de choisir
+- pas de hello paquets donc nécessité de déclarer l'IP du voisin
 - utilisation du port TCP 179 pour les échanges entre routeur BGP. 
 - bit 'don't fragment' activé donc besoin du mécanisme de Path MTU.
 - A besoin d'un IGP poP = Adjacence . Une route par défaut ne suffit pas.
 - La redistribution des routes de l'IGP dans BGP est possible. Le contraire: routes BGP dans l'IGP est beaucoup plus risquée.  
-- La table BGP est appelée Loc-Rib table
+- La table BGP est appelée Loc-RIB table donc distincte de la RIB.
 
 
 ## Sessions
@@ -28,14 +28,15 @@ markmap:
   - Le routeur averti vérifie que son AS  
   - Distance administrative 20.
 - iBGP 
-  - Fait pour le transit (TTL à 255)
-  - On ne peut pas redistribuer les routes BGP dans l'IGP (C'est trop de route - Il n'y a pas 
-    d'équivalence des métriques IGP ni de traduction des attributs BGP dans le "langage" de l'IGP.
-  - Nécessité de faire du full mesh ou un "route reflector" si il y a plusieurs routeurs
-  - Distance administrative 200
-  - Les routes apprises par iBGP ne sont pas retransmises dans l'IGP. 
-
- ## MP-BGP (multiprotocol BGP)
+  - Il est fait pour communiquer entre routeurs BGP dans une même AS (TTL à 255). 
+  - Dans le cas ou l'AS sert de transit les routeurs traversés qui n'implémentent qu'un IGP ne connaissent 
+    pas les routes issues de BGP. Il faut donc soit des routes statiques, soit du tunelling MPLS, soit du fullmesh iBGP (route reflector), soit redistribuer les routes BGP dans l'IGP mais...
+  - Il n'est pas conseiller de redistribuer les routes BGP dans l'IGP (Il peut y avoir beaucoup de routes BGP...
+    trop pour un IGP qui n'est pas taillé pour cela. Il n'y a pas non plus d'équivalence des métriques IGP ni 
+    de traductions possibles des attributs BGP dans le "langage" de l'IGP.
+  - Distance administrative 200.
+  
+## MP-BGP (multiprotocol BGP)
 
 - AFI (Address Family Identifier): IPv4 IPv6
 - SAFI (Subsequent Address Family Identifier): Unicast ou Multicast
