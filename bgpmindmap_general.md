@@ -16,6 +16,7 @@ markmap:
 - bit 'don't fragment' activé donc besoin du mécanisme de Path MTU.
 - A besoin d'un IGP poP = Adjacence . Une route par défaut ne suffit pas.
 - La redistribution des routes de l'IGP dans BGP est possible. Le contraire: routes BGP dans l'IGP est beaucoup plus risquée.  
+- La table BGP est appelée Loc-Rib table
 
 
 ## Sessions
@@ -28,7 +29,8 @@ markmap:
   - Distance administrative 20.
 - iBGP 
   - Fait pour le transit (TTL à 255)
-  - On ne peut pas redistribuer les routes BGP dans l'IGP ( trop de route - pas d'équivalence des métriques IGP, pas de traduction des attributs dans le "langage" de l'IGP)
+  - On ne peut pas redistribuer les routes BGP dans l'IGP (C'est trop de route - Il n'y a pas 
+    d'équivalence des métriques IGP ni de traduction des attributs BGP dans le "langage" de l'IGP.
   - Nécessité de faire du full mesh ou un "route reflector" si il y a plusieurs routeurs
   - Distance administrative 200
   - Les routes apprises par iBGP ne sont pas retransmises dans l'IGP. 
@@ -74,74 +76,3 @@ markmap:
 - RFC 1654 Juillet 1994
 - RFC 2283 February 1998
 
-## Commandes
-
-```ios
-    router bgp  665100
-    bgp log-neighbor-changes
-    # 
-    no synchronisation
-    # permet d'indiquer qui pilote le dialogue (état Connect)
-    bgp router-id 1.1.1.1 
-    aggregate address 192.168.0.0 255.255.0.0 summary-only # agrégation
-    # as-set conserve les attributs initiaux 
-    aggregate address 10.202.0.0 255.255.0.0 as-set summary-only 
-    bgp redistribute internal
-    network 192.168.1.0 mask 255.255.255.0
-    network 192.168.2.0 mask 255.255.255.0
-    neighbor 10.12.1.1 remote-as 65200
-```
-```ios
-# spécificités ibgp
-
-Router bgp 65000
-  neighbor 192.168.100.1 remote-as 65000 
-
-# indique au routeur d'utiliser toute interface
-# opérationnelle pour établir les connexions TCP 
-# tant que Lo0 est active et
-# configurée avec une adresse IP)
-
-  neighbor 192.168.100.1 update-source loopback 0
-
-# Lorsqu'un routeur EBGP reçoit des routes d'un voisin
-# EBGP, il transmet les routes aux routeurs IBGP avec
-# l'adresse source du voisin. Mais le routeur ibg ne sais pas
-# joindre ce routeur qui en dehors de l'IGP. 
-# Le next-hop-self remplace l'IP du voisin
-# par celle du routeur EGP de bordure    
-
-  neighbor 192.168.100.1 next-hop-self
-
-```
-
-```ios
-sh run | s bgp
-sh run | section bgp  
-show bgp ipv4 summary
-show ip bgp
-show ip bgp neighbor
-show ip bgp neighbors | include BGP
-# hard reset ne pas faire en prod 
-clear ip bgp *
-# soft reset
-clear ip bgp 192.168.100.1 soft in|out
-debug ip tcp transactions
-debug ip bgp
-```
-## synchronisation: usecase transitaire
-```ios
-Router bgp 65000
-   no synchronisation
-```
-  - Un routeur BGP apprend un réseau d'un autre peer BGP. La route apprise est transmise via iBGP à un autre routeur. 
-
-## Attributs
-
-- LOCAL_PREFERENCE: Attribut positionné sur les routeurs BGP de bordures
-- Intérêt minimiser les distances
-    -
-    - AS_PATH (inter domaines)
-    - MED (intra domaines)
-    - eBGP avant iBGP
-    - Coût IGP
