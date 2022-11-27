@@ -2,33 +2,60 @@
 markmap:
   colorFreezeLevel: 2
   maxWidth: 700
-
-
 ---
 
 # BPG
+## Définitions 
 
-## Caractéristiques
+- Un "Autonomous System" est un ensemble de réseaux géré par une seule entité.
+- ISP: Entreprises dont le métier est de connecter d'autres entreprises à l'internet. 
+  - Les ISP de tiers 1 structurent  l'internet
+  - Les tiers 2 vendent et achètent du transit.
+  - Les tiers 3 ne fournissent pas de transit. Ils peuvent êre "multi-homés"(deux chemins ou plus vers l'internet) afin d'assurer la haute disponibilité des accès et avoir les chemins les plus rapides vers une ressource prisée.
+- Les points d'échanges sont des lieux physiques ou s'interconnectent les ISP afin de faciliter les échanges de données (france XI par exemple).
+- Un "Point Of Presence" Pop est un lieu physique permettant l'échange de données pour l'internet avec des entités locales.
 
-- La métrique de BGP est de type "distance-vector" et correspond au nombre d'AS traversées. L'attribut de chemins "AS_PATH" qui contient les AS traversées permet (mais il n'est pas le seul) à BGP de choisir
-- pas de hello paquets donc nécessité de déclarer l'IP du voisin
-- utilisation du port TCP 179 pour les échanges entre routeur BGP. 
-- bit 'don't fragment' activé donc besoin du mécanisme de Path MTU.
-- A besoin d'un IGP poP = Adjacence . Une route par défaut ne suffit pas.
-- La redistribution des routes de l'IGP dans BGP est possible. Le contraire: routes BGP dans l'IGP est beaucoup plus risquée.  
+## Relations entre AS
+
+- Le Transit est le service vendu par un ISP pour donner accès à Internet.
+- Le peering est l’échange réciproque de flux souvent dans un but économique.
+  - Un peering n'est pas transitif.
+  - Il ne donne pas accès à tous les réseaux de l'AS à laquelle on est connecté.
+- voir <https://www.peeringdb.com/net/433> comme exemple.
+```
+- Un peer est un routeur d'une autre AS avec lequel on établit une relation de voisinage BGP.
+
+```
+
+## Caractéristiques de BGP
+
+- La métrique de BGP est de type "distance-vector" et correspond au nombre d'AS traversées. L'attribut de chemins "AS_PATH" qui contient les AS traversées permet (mais il n'est pas le seul) à BGP de choisir le meilleur chemin.
+- Pas de paquets pour l'auto-découverte donc nécessité de déclarer l'IP du voisin pour communiquer.
+- Le temps de convergence de BGP est plus long que celui d'un IGP.
+- Utilisation du port TCP 179 pour les échanges entre routeur BGP. 
+- Bit 'don't fragment' activé donc on besoin du mécanisme de "Path MTU" pour émettre les paquets.
+- BGP a besoin d'un IGP. Une route par défaut ne suffit pas.*
+- Deux règles pour BGP:
+  - Principes de synchronisation: Les routes apprises via IBGP doivent être également
+apprises par un IGP (OSPF,…) avant d’être annoncées à d’autres peers d’AS différents.
+- La redistribution des routes de l'IGP dans BGP est possible mais distribuer des routes BGP dans l'IGP est beaucoup plus risquée.  
 - La table BGP est appelée Loc-RIB table donc distincte de la RIB.
-
 
 ## Sessions
 
 - eBGP
-  - TTL à 1  (le routeur averti doit être en frontal du notre)
-  - Le routeur averti positionne le NEXT_HOP pour cet AS à l'IP source du routeur établissant la connexion
-  - Le routeur averti ajoute son ASN dans l'AS_PATH
-  - Le routeur averti vérifie que son AS  
-  - Distance administrative 20.
+  - C'est une session BGP entre deux routeurs appartenant à des AS différentes.
+  - le TTL du paquet BGP est de 1 (le routeur averti doit être en frontal du notre et donc à une distance de 1 suffit)
+  - Le routeur averti vérifie que son AS n'est pas dans l'AS_PATH reçu. 
+  - Le routeur averti positionne le NEXT_HOP pour cet AS à l'IP source du routeur source établissant la connexion.
+  - Le routeur averti ajoute son ASN dans l'AS_PATH.
+  - Distance administrative 20 pour BGP.
 - iBGP 
-  - Il est fait pour communiquer entre routeurs BGP dans une même AS (TTL à 255). 
+  - Il est fait pour communiquer entre routeurs BGP dans une même AS (TTL à 255).
+  - L'attribut AS_PATH n'est pas modifié par iBGP, il n'y a donc pas de détection possible des boucles.
+  - Split-Horizon: une route apprise par une session iBGP n'est jamais transmise à un autre voisin iBGP. On est donc
+    obligé de faire du "full-mesh" entre tous les routeurs iBGP.
+    dans l'IGP pour les transmettre au routeur eBGP de bordure
   - Dans le cas ou l'AS sert de transit les routeurs traversés qui n'implémentent qu'un IGP ne connaissent 
     pas les routes issues de BGP. Il faut donc soit des routes statiques, soit du tunelling MPLS, soit du fullmesh iBGP (route reflector), soit redistribuer les routes BGP dans l'IGP mais...
   - Il n'est pas conseiller de redistribuer les routes BGP dans l'IGP (Il peut y avoir beaucoup de routes BGP...
@@ -38,14 +65,15 @@ markmap:
   
 ## MP-BGP (multiprotocol BGP)
 
-- AFI (Address Family Identifier): IPv4 IPv6
-- SAFI (Subsequent Address Family Identifier): Unicast ou Multicast
-- Utilisation d'attributs (Path Attributes) NLRI afin de transporter ces informations.
-
+- Protocole BGP permet de travailler avec plusieurs familles et sous familles IP.
+  - AFI (Address Family Identifier): IPv4 IPv6
+  - SAFI (Subsequent Address Family Identifier): Unicast ou Multicast
+  - Utilisation d'attributs (Path Attributes) NLRI afin de transporter ces informations.
+  
 ## AS Number (ASN)
 
 - privés: 64512-65535
-- publiques: le reste ils sont assignés par IANA 
+- publiques: le reste ... les ASN sont assignés par IANA. 
 
 ## PATH VECTOR protocol avec un mécanisme de prévention des boucles (un AS_PATH contenant l'AS auquel appartient le routeur est mis de côté )
 
