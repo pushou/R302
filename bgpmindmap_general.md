@@ -40,6 +40,7 @@ markmap:
 apprises par un IGP (OSPF,…) avant d’être annoncées à d’autres peers d’AS différents.
 - La redistribution des routes de l'IGP dans BGP est possible mais distribuer des routes BGP dans l'IGP est beaucoup plus risquée.  
 - La table BGP est appelée Loc-RIB table donc distincte de la RIB.
+- Les routes apprises dans iBGP sont redistribuées dans eBGP et vice-versa mais pas dans iBGP.
 
 ## Sessions
 
