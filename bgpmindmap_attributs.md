@@ -9,7 +9,7 @@ markmap:
 # Attributs
 
 - LOCAL_PREFERENCE: Attribut positionné sur les routeurs BGP de bordures
-- Intérêt minimiser les distances
+- Intêrêt minimiser les distances
     -
     - AS_PATH (inter domaines)
     - MED (intra domaines)
