@@ -10,19 +10,20 @@ markmap:
 
 - Au début la commutation de label était plus rapide que le routage mais ce n'est plus le cas actuellement.
 - MPLS permet de faire du "Traffic engineering" (partage de charge, de la QoS, du VPN.)
-- Les VPN MPLS sont de niveau 2 ou 3.
+- Les VPN MPLS sont de niveau 2 (Layer 2 Pseudowire) ou 3(L3VPN).
+- Le réseau MPLS est opéré par une seule entité. Seul le passage au  SDN (Software Defined Networking) permet de piloter plusieurs fournisseurs de réseaux afin choisir le meilleur chemin. 
 
 
 
 ## Les VRF sont nécessaires pour MPLS
 
- - Un routeur physique peut gérer plusieurs tables de routages: une par client. Ce sont les VRF(Virtual Routing & Forwarding)).
+ - Un routeur physique peut gérer plusieurs tables de routages: une par client. Ce sont les VRF(Virtual Routing & Forwarding).
  - Chaque VRF correspond à une table de routage (une pour chaque client du FAI). 
- - Les VRF permettent à plusieurs clients d'utiliser le même plan d'adressage privé sans craindre l'overlaps.  
+ - Les VRF permettent à plusieurs clients d'utiliser le même plan d'adressage privé sans craindre l'"overlaps" des réseaux.  
 
 ## Définitions 
 
-- Commutation de paquets versus routage.
+- MPLS c'est de la commutation de paquets pas du parcours des tables de routage pour trouver le meilleur chemin.
 - Technologie de couche entre 2 et 3 (2,5).
 - Basée sur la labellisation: une étiquette est ajoutée au paquet.
 - Le paquet et transmis par le routeur suivant en fonction de ce label qui lui-même en appose un. En conséquence un label a une signification locale et on peut donc avoir un label apparaissant plusieurs fois.
@@ -55,13 +56,15 @@ markmap:
 
 - FEC(Forwarding Equivalent Class= Classe d'équivalence): on réunit les paquets ayant les mêmes caractéristiques (IP|source source ou IP|réseau de destination ou ...) dans une même FEC. Une FEC  est identifiée par le réseau de destination.
 - Les couples de labels sortants et rentrants matérialisent pour chaque FEC un chemin ou **circuit virtuel** des paquets ou LSP(Label Switching Path). Il y a un LSP pour l'aller et un autre pour le retour.
-- Une FEC peut être travaillée manuellement en fonction de critères plus précis (ports , adresse sources...) pour différencier certains flux, par exemple pour la QoS. En mode automatique il faut que l'ensemble des LSR 
+- Une FEC peut être travaillée manuellement en fonction de critères plus précis (ports , adresse sources...) pour différencier certains flux, par exemple pour la QoS. En mode automatique il faut que l'ensemble des LSR échangent les labels.
 
 ## Traffic Engineering
 
-- Le "traffic engineering" permet d'avoir des contraintes additionnelles sur le meilleur chemin.( par exemple on veut le plus court chemin avec la meilleure bande passante).
+- Le "traffic engineering" permet d'avoir des contraintes additionnelles sur le meilleur chemin (par exemple on veut le plus court chemin avec la meilleure bande passante).
 - Le protocole RSVP, permet de réserver de la bande passante.
-- Chaque chemin de commutation de label (Label Switching Path) peut être associé à une réservation de bande passante.
+- Chaque chemin de commutation de label (Label Switching Path) peut être associé à une réservation de bande passante. Cette réservation peut être calculée de façon automatique (auto bandwidth) 
+- "MPLS Fast Reroute" améliore la convergence lors d'un incident. MPLS FR a pour but de pré-calculer des LSP de secours et pré-implémenter la FIB pour gagner du temps.
+- "MPLS Protection Schemes"
 
 ## Dynamique du switching MPLS
 
@@ -93,4 +96,15 @@ markmap:
 - Une VRF a un "Route Distinguisher" unique sur le PE. Le format de RD est souvent "Numéro de l'AS: Numéro Assigné". Le numéro assigné dépend de l'opérateur 
 - Les VRF sont raccordés entre elles via des RouteTarget importées et exportées sur les PE.
 
+## MPLS et traceroute
 
+- Le mécanisme  de décrémentation du TTL n'est pas demandé par MPLS ce qui est problématique pour un traceroute... et donc voir le chemin emprunté par les paquets.
+- On peut néanmoins l'implémenter...
+
+## La sécurité avec MPLS
+
+ - La sécurité du réseau MPLS repose sur:
+    - L'indépendance des flux.
+    - Le pilotage et la sécurité du réseau est assurée par un seul Provider. 
+- On peut néanmoins s'interroger sur dle chiffrement des données qui est absent de MPLS et sur le fait que c'est le niveau de sécurité du fournisseur qui détermine le niveau de sécurité. 
+  
