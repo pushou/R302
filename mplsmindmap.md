@@ -12,6 +12,14 @@ markmap:
 - MPLS permet de faire du "Traffic engineering" (partage de charge, de la QoS, du VPN.)
 - Les VPN MPLS sont de niveau 2 ou 3.
 
+
+
+## Les VRF sont nécessaires pour MPLS
+
+ - Un routeur physique peut gérer plusieurs tables de routages: une par client. Ce sont les VRF(Virtual Routing & Forwarding)).
+ - Chaque VRF correspond à une table de routage (une pour chaque client du FAI). 
+ - Les VRF permettent à plusieurs clients d'utiliser le même plan d'adressage privé sans craindre l'overlaps.  
+
 ## Définitions 
 
 - Commutation de paquets versus routage.
@@ -31,16 +39,29 @@ markmap:
 
 ## Routeurs
 
-- LER(Label Edge Router) appelés aussi PE(provider edge) chez Cisco: Point d'entrée qui recoit le paquet , détermine son 
-étiquette.  A la sortie du réseau MPLS il enlève le paquet. Moins chargés que les LSR, il effectue des opérations plus complexes.
-- LSR(Label Switch Router) appelés aussi P(Provider)chez Cisco: routeur de coeur du réseau MPLS. 
+- LER(Label Edge Router) : Points d'entrée (ingress) et de sortie (egress) du réseau MPLS. l' ingress LER reçoit le paquet , détermine son étiquette.  A la sortie du réseau l'egress LER enlève les labels. Ils effectuent des opérations complexes.
+- LSR(Label Switch Router) ou "transit node" : Routeur commutateur de labels MPLS. 
   - Chaque LSR possède une table de label propre.
   - Chaque LSR assignes des labels à ses FEC.
   - Les labels sont assignés et échangés entre LSR adjacents.
   - Le VPN et le TE nécessitent des échanges de labels entre voisins distants.
+- Les LER sont aussi appelés PE (Provider Edge) et les LSR des P (Provider) dans la terminologie Cisco. Les CE (Customer Edge) sont les routeurs des clients en frontal des LER ou PE.
+- Terminologie Cisco
+  CE -> PE  -> P -> P ... -> PE -> CE
+  avec la terminologie Officielle
+  CE -> ingress LER -> LSR - LSR
+
+## FEC ou classe d'équivalence.
+
 - FEC(Forwarding Equivalent Class= Classe d'équivalence): on réunit les paquets ayant les mêmes caractéristiques (IP|source source ou IP|réseau de destination ou ...) dans une même FEC. Une FEC  est identifiée par le réseau de destination.
-- Les couples de labels sortants et rentrants matérialisent pour chaque FEC un chemin ou **circuit virtuel** des paquets ou LSP(Label Switching Pass). Il y a un LSP pour l'aller et un autre pour le retour.
+- Les couples de labels sortants et rentrants matérialisent pour chaque FEC un chemin ou **circuit virtuel** des paquets ou LSP(Label Switching Path). Il y a un LSP pour l'aller et un autre pour le retour.
 - Une FEC peut être travaillée manuellement en fonction de critères plus précis (ports , adresse sources...) pour différencier certains flux, par exemple pour la QoS. En mode automatique il faut que l'ensemble des LSR 
+
+## Traffic Engineering
+
+- Le "traffic engineering" permet d'avoir des contraintes additionnelles sur le meilleur chemin.( par exemple on veut le plus court chemin avec la meilleure bande passante).
+- Le protocole RSVP, permet de réserver de la bande passante.
+- Chaque chemin de commutation de label (Label Switching Path) peut être associé à une réservation de bande passante.
 
 ## Dynamique du switching MPLS
 
@@ -67,12 +88,9 @@ markmap:
      - Ajout du SOO (Site of origin).
      - Ajout du "Route Target"
 
+## Route Distinguisher Target
 
-  
-## Trois éléments principaux du VPN MLS
-
-- Les VRF(Virtual Routing & Forwarding): Un routeur physique supporte plusieurs routeurs virtuels. 
 - Une VRF a un "Route Distinguisher" unique sur le PE. Le format de RD est souvent "Numéro de l'AS: Numéro Assigné". Le numéro assigné dépend de l'opérateur 
 - Les VRF sont raccordés entre elles via des RouteTarget importées et exportées sur les PE.
-- 
+
 
