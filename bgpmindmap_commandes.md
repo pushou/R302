@@ -9,7 +9,7 @@ markmap:
 
 ## configuration BGP basique
 ```ios
-interface loopbak
+interface loopback
 router bgp  65100
     bgp log-neighbor-changes
     
