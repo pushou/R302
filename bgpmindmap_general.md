@@ -8,10 +8,12 @@ markmap:
 ## Définitions 
 
 - Un "Autonomous System" est un ensemble de réseaux géré par une seule entité.
-- ISP: Entreprises dont le métier est de connecter d'autres entreprises à l'internet. 
-  - Les ISP de tiers 1 structurent  l'internet
-  - Les tiers 2 vendent et achètent du transit.
-  - Les tiers 3 ne fournissent pas de transit. Ils peuvent être "multi-homés"(deux chemins ou plus vers l'internet) afin d'assurer la haute disponibilité des accès et avoir les chemins les plus rapides vers une ressource prisée.
+- ISP: Entreprises dont le métier est de connecter d'autres entreprises à l'internet.
+  
+    - Les ISP de tiers 1 structurent  l'internet
+    - Les tiers 2 vendent et achètent du transit.
+    - Les tiers 3 ne fournissent pas de transit. Ils peuvent être "multi-homés"(deux chemins ou plus vers l'internet) afin d'assurer la haute disponibilité des accès et avoir les chemins les plus rapides vers une ressource prisée.
+
 - Les points d'échanges sont des lieux physiques ou s'interconnectent les ISP afin de faciliter les échanges de données (France XI par exemple).
 - Un "Point Of Presence" Pop est un lieu physique permettant l'échange de données pour l'internet avec des entités locales.
 
@@ -27,7 +29,7 @@ markmap:
 
 ## Caractéristiques de BGP
 
-- La métrique de BGP est de type "distance-vector" et correspond au nombre d'AS traversés. L'attribut de chemins "AS_PATH" qui contient les AS traversés permet (mais il n'est pas le seul) à BGP de choisir le meilleur chemin.
+- La métrique de BGP est de type "distance-vector" et correspond au nombre d'AS traversés. L'attribut de chemins "AS_PATH" qui contient les AS traversés permet (mais  il n'est pas le seul) à BGP de choisir le meilleur chemin.
 - Pas de paquets pour l'auto-découverte donc nécessité de déclarer l'IP du voisin pour communiquer.
 - Le temps de convergence de BGP est plus long que celui d'un IGP.
 - Utilisation du port TCP 179 pour les échanges entre routeur BGP. 

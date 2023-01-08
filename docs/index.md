@@ -1,1 +1,0 @@
-../bgpmindmap_commandes.md

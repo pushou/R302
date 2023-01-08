@@ -6,13 +6,9 @@ markmap:
 
 # Commandes Cisco
 
-- [topo transit](topo-transit.png)
-- [avant-après_nexthop_self](nexthop-self.png)
- 
 
-
+## configuration BGP basique
 ```ios
-# configuration classique
 interface loopbak
 router bgp  65100
     bgp log-neighbor-changes
@@ -31,9 +27,9 @@ router bgp  65100
     # sh ip bgp neighbors 1.1.1.1 received-routes
     neighbor 10.12.1.1 soft-reconfiguration inbound
 ```
-
+## configuration BGP avec loopbacks  
 ```ios
-# configuration à base de loopbacks pour eBGP et iBGP
+
 interface Loopback2
  ip address 2.2.2.2 255.255.255.255
 !
@@ -48,7 +44,7 @@ router bgp 65535
    #
    neighbor 1.1.1.1 remote-as 65531
 
-   # le TTL du "packet" passe à 2 
+   # le TTL du "packet" bgp est de un ce qui pose problème avec le saut supplémentaire du à la loopback: on passe donc le TTL à 2 
    # afin d'atteindre la loopback on change le TTL du paquet BGP à deux
    neighbor 1.1.1.1 ebgp-multihop 2
    # Une autre façon de faire désactiver le besoin de BGP d'avoir une 
@@ -80,36 +76,39 @@ router bgp 65535
 ip route 1.1.1.1 255.255.255.255 11.0.0.100
 ```
 
+## agrégation de routes
+
 ```ios
-    # agrégation de routes
     aggregate address 192.168.0.0 255.255.0.0 summary-only 
     # as-set conserve les attributs initiaux 
     aggregate address 10.202.0.0 255.255.0.0 as-set summary-only 
 ```
 
-- Injection de la route par défaut.
+## injection de la route par défaut
   
 ```ios
 router bgp 65535
    # Injecte la route par défaut dans BGP seulement si la route par défaut est présente dans la table de routage, 
    # ou apprise d'un autre protocole
    network 0.0.0.0
-# command enables the router to advertise the default route because the router thinks that 0.0.0.0
-# is directly connected via Null0 - si c'est une stub AS il faut le faire pointer vers l'IP du voisin BGP de l'ISP.
+# command enables the router to advertise the default route because the router thinks that 0.0.0.0 is directly connected via Null0 - si c'est une stub AS il faut le faire pointer vers l'IP du voisin BGP de l'ISP.
 ip default route 0.0.0.0 0.0.0.0 null0
 ```
 
 ```ios
 router bgp 65535
-   # oblige la création artificielle de la route et l'injecte dans la RIB BGP, que la route soit présente ou pas
-   # dans la table de routage
+   # oblige la création artificielle de la route et l'injecte dans la RIB BGP, que la 
+   # route soit présente ou pas dans la table de routage de l4IGP
    default-information originate
 ```
+
 ```ios
 router bgp 65535
    # idem que précédemment mais on averti qu'un seul routeur BGP 
    neighbor 5.5.5.5 default-information originate
 ```
+
+
 
 ```ios
 # pour voir l'injection c'est la table bgp rien dans la RIB
@@ -126,13 +125,16 @@ RPKI validation codes: V valid, I invalid, N Not found
  *>  2.2.2.2/32       10.11.0.2                0         32768 ?
 ```
 
-- Commandes de debug:
+## Commandes de debug:
   
+### running
 ```ios
 
 sh run | section bgp  
 sh run | s bgp
-
+```
+### show ip bgp
+```ios
 show ip bgp
 show ip bgp neighbor
 show ip bgp neighbors | include BGP
@@ -159,13 +161,7 @@ debug ip packet
 u all # pour arrêter
 ```
 
-- Tables BGP
-   lors des updates BGP et avec les routes locales
-  - Quand un message BP UPDATE arrive, l'information est mise dans la table BGP.
-  - L'algorithme BGP cherche le meilleur chemin
-  - La RIB du routeur est mise à jour et les voisins aussi.
-  - la version de la table est incrémentée pour chaque changement de **meilleur chemin**
-  
+
 ```ios
 show ip bgp ipv4 unicast summary 
 ...
@@ -185,10 +181,21 @@ Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State
 5.5.5.5         4        65535     122     120        7    0    0 01:42:46        3
 ```
 
+## lors des updates BGP et avec les routes locales
+  - Quand un message BP UPDATE arrive, l'information est mise dans la table BGP.
+  - L'algorithme BGP cherche le meilleur chemin
+  - La RIB du routeur est mise à jour et les voisins aussi.
+  - la version de la table est incrémentée pour chaque changement de **meilleur chemin**
+  
 
-- Churn
+# topologie
+- [topo transit](topo-transit.png)
 
-- biblio 
+# nexthop
+- [avant-après_nexthop_self](nexthop-self.png)
+ 
+
+# biblio 
   - Exemples config eBGP/iBGP Cisco: 
     <https://www.cisco.com/c/en/us/support/docs/ip/border-gateway-protocol-bgp/13751-23.html>
   - BGP fundamental Cisco: 
