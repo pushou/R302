@@ -36,9 +36,9 @@ markmap:
 - Bit 'don't fragment' activé dont a besoin le mécanisme de "Path MTU" pour émettre les paquets.
 - BGP a besoin d'un IGP. Une route par défaut ne suffit pas.
 - Deux règles pour BGP :
-  - Principes de synchronisation : Les routes apprises via IBGP doivent être également
+   - Principes de synchronisation : Les routes apprises via IBGP doivent être également
 apprises par un IGP (OSPF,…) avant d’être annoncées à d’autres peers d’AS différents.
-- La redistribution des routes de l'IGP dans BGP est possible mais distribuer des routes BGP dans l'IGP est beaucoup plus risquée.  
+   - La redistribution des routes de l'IGP dans BGP est possible mais distribuer des routes BGP dans l'IGP est beaucoup plus risquée.  
 - La table BGP est appelée "Loc-RIB table" et est distincte de la RIB.
 - Les routes apprises dans iBGP sont redistribuées dans eBGP et vice-versa. Mais il n'y a pas de redistribution des routes d'un routeur iBGP vers un routeur iBGP.
 
@@ -68,9 +68,9 @@ apprises par un IGP (OSPF,…) avant d’être annoncées à d’autres peers d�
 ## MP-BGP (multiprotocol BGP)
 
 - Protocole BGP permet de travailler avec plusieurs familles et sous familles IP.
-  - AFI (Address Family Identifier): IPv4 IPv6
-  - SAFI (Subsequent Address Family Identifier): Unicast ou Multicast
-  - Utilisation d'attributs (Path Attributes) NLRI afin de transporter ces informations.
+   - AFI (Address Family Identifier): IPv4 IPv6
+   - SAFI (Subsequent Address Family Identifier): Unicast ou Multicast
+   - Utilisation d'attributs (Path Attributes) NLRI afin de transporter ces informations.
   
 ## AS Number (ASN)
 
