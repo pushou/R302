@@ -5,20 +5,27 @@ markmap:
 ---
 # Commandes Linux (AS+LABEL)
 
-- mtr --tcp --port 443 --show-ips --mpls --aslookup --curses www.umontpellier.fr
-- mtr -P 443 -T  -b -e -z -t 194.199.227.220
-- traceroute -A -n -e -i eth0 8.8.8.8
-- mtr  -P 443 -T -c 2  -b -e -z -t -j 194.199.227.220 | from json|flatten|get hubs|flatten
 
+```bash
+  #mtr
+  mtr --tcp --port 443 --show-ips --mpls --aslookup --curses www.umontpellier.fr
+  mtr -P 443 -T  -b -e -z -t 194.199.227.220
+  mtr  -P 443 -T -c 2  -b -e -z -t -j 194.199.227.220 | from json|flatten|get hubs|flatten
+```
+
+```bash
+# traceroute
+traceroute -A -n -e -i eth0 8.8.8.8
+```
 # Commandes Cisco
 
 ## mpls config
 
-- autoconfig
- - ```ios
-   router ospf 1
+- AutoConfig LDP
+  ```ios
+  router ospf 1
       mpls ldp autoconfig
-   ```
+  ```
 
 - ``` ios
   # cef améliore les performances (distributed c'est mieux) 

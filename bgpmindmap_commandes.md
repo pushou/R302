@@ -14,7 +14,7 @@ markmap:
 ```ios
 # configuration classique
 interface loopbak
-router bgp  665100
+router bgp  65100
     bgp log-neighbor-changes
     
     # "synchronisation" permet de n'annoncer une route via BGP que si la route est connue de l'IGP
