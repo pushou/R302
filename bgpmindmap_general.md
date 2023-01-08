@@ -101,7 +101,7 @@ apprises par un IGP (OSPF,…) avant d’être annoncées à d’autres peers d�
 
 ## RFC
 
-- RFC 1105 Juin 1989
-- RFC 1654 Juillet 1994
-- RFC 2283 February 1998
+- RFC 1105 juin 1989
+- RFC 1654 juillet 1994
+- RFC 2283 février 1998
 
