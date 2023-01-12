@@ -7,7 +7,7 @@ markmap:
 # BPG
 ## Définitions 
 
-- Un "Autonomous System" est un ensemble de réseaux géré par une seule entité.
+- Un "Autonomous System" est un ensemble de réseaux gérés par une seule entité.
 - ISP: Entreprises dont le métier est de connecter d'autres entreprises à l'internet.
   
     - Les ISP de tiers 1 structurent  l'internet

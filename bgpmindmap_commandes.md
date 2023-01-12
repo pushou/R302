@@ -16,7 +16,9 @@ router bgp  65100
     # "synchronisation" permet de n'annoncer une route via BGP que si la route est connue de l'IGP
     # Permet d'échapper au principe de synchronisation
     no synchronisation
-    # permet d'indiquer qui pilote le dialogue (état Connect)
+    # Sans lookpback lors de la sélection du meilleur chemin un critère est le plus haut router-id.
+    # Si la loopback est positionné c'est elle qu sert d'id
+    # A défaut c'est l'IP la plus élevée qui sert d'id 
     bgp router-id 1.1.1.1 
     # déclaration des réseaux à annoncer
     network 192.168.1.0 mask 255.255.255.0
@@ -56,11 +58,11 @@ router bgp 65535
    # tant que Lo2 est active et
    # configurée avec une adresse IP
    # = plus de stabilité et de résilience
-   neighbor 1.1.1.1 update-source Loopback2
+   neighbor 1.1.1.1 update-source Loopback1
    # L'AS number est le même ici ce qui permet
    # de qualifier cette session comme une session iBGP
    neighbor 5.5.5.5 remote-as 65535
-   neighbor 5.5.5.5 update-source Loopback2
+   neighbor 5.5.5.5 update-source Loopback1
 
    # Quand une route est transmise à un routeur iBGP
    # le next-hop est un attribut BGP obligatoire
@@ -74,6 +76,43 @@ router bgp 65535
 # route statique obligatoire afin d'atteindre la loopback qui
 # est derrière l'interface physique du routeur
 ip route 1.1.1.1 255.255.255.255 11.0.0.100
+```
+
+## Configuration BGP la plus pro avec address-family: 
+
+Par Cisco considère que les peers BGP sont ipv4... ce qui n'est pas vrai
+Il vaut donc mieux l'éviter:
+```ios
+no bgp default ipv4-unicast
+```
+
+```ios
+router bgp 300
+ bgp log-neighbor-changes
+ neighbor 4.4.4.4 remote-as 100
+ neighbor 4.4.4.4 ebgp-multihop 2
+ neighbor 4.4.4.4 update-source Loopback1
+ !
+ address-family ipv4 # ipv6 
+  neighbor 4.4.4.4 activate # activation explicite du protocole
+  no auto-summary
+  no synchronization
+ exit-address-family
+!
+```
+C'est ospf qui annonce les "loopbacks" 
+
+```ios
+interface Loopback3
+ ip address 3.3.3.3 255.255.255.255
+ ip ospf network point-to-point
+ ip ospf 1 area 0
+!
+router ospf 1
+ log-adjacency-changes
+ network 3.3.3.3 0.0.0.0 area 0
+ network 35.0.0.0 0.0.0.3 area 0
+
 ```
 
 ## agrégation de routes
@@ -111,7 +150,7 @@ router bgp 65535
 
 
 ```ios
-# pour voir l'injection c'est la table bgp rien dans la RIB
+# pour voir l'injection c'est la table bgp
 R1(config)#do sh ip bgp
 BGP table version is 23, local router ID is 1.1.1.1
 Status codes: s suppressed, d damped, h history, * valid, > best, i - internal, 
@@ -160,7 +199,6 @@ debug ip bgp
 debug ip packet
 u all # pour arrêter
 ```
-
 
 ```ios
 show ip bgp ipv4 unicast summary 
