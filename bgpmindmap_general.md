@@ -28,6 +28,7 @@ markmap:
 ## Caractéristiques de BGP
 
 - La métrique de BGP est de type "distance-vector" et correspond au nombre d'"AS" traversés. L'attribut de chemins "AS_PATH" qui contient les AS traversés permet (mais il n'est pas le seul critère) à BGP de choisir le meilleur chemin: c'est le plus court "AS-PATH" qui est retenu comme chemin.
+-  BGP dispose d'un mécanisme de prévention des boucles : si un "AS_PATH" contient l'"AS" auquel appartient le routeur ce vecteur est mise de côté lors du choix de la meilleure route.
 - Il n'y a pas de paquets "Hello" pour l'auto-découverte des "peers" entre eux et donc il est nécessaire de déclarer l'IP du voisin pour communiquer.
 - Le temps de convergence de BGP est plus long que celui d'un IGP. En contrepartie, il gère des centaines de milliers de routes ce que ne peut faire un IGP.
 - Le port TCP 179 est utilisé pour les échanges entre routeurs BGP. 
@@ -76,7 +77,7 @@ Les notions d'"Address Family Identifier" (AFI) et de "Subsequent Address Family
 - privés: 64512-65535
 - publics: le reste ... les ASN sont assignés par le "IANA". 
 
-## BGP est un protocole "PATH VECTOR" avec un mécanisme de prévention des boucles : une route avec un attribut "AS_PATH" contenant l'"AS" auquel appartient le routeur est mise de côté lors du choix de la meilleure route.
+
 
 ## Messages BGP échangés sur le port tcp 179.
 
