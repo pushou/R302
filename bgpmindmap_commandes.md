@@ -4,34 +4,48 @@ markmap:
   maxWidth: 800
 ---
 
+# Commandes Linux pour voir les AS traversées et plus encore
+```ios
+traceroute -A
+```
+```ios
+mtr --tcp --port 443 --show-ips --mpls --aslookup --curses
+```
+
 # Commandes Cisco
 
 
-## configuration BGP basique
+
+## Configuration BGP basique
 ```ios
-interface loopback
+# 65100 est l'AS dans lequel est notre routeur
 router bgp  65100
+    # par défaut on est prévenu des changements sur le voisin
     bgp log-neighbor-changes
-    
-    # "synchronisation" permet de n'annoncer une route via BGP que si la route est connue de l'IGP
-    # Permet d'échapper au principe de synchronisation
+    # Commande "synchronisation": un routeur BGP de bordure annonce une route à son peer BGP que si cette route est aussi connue de son IGP.
+    # Le but est d'éviter de perdre du trafic dans une AS de transit dans laquelle un routeur qui ne serait pas iBGP deviendrait un trou noir pour le trafic en transit
+    # Mais tous les routeurs de nos jours font du iBGP et dialogue entre eux via un "Route Reflector"  ou on utilise des routeurs MPLS qui peuvent transmettre du trafic sans table de routage.   
+    # En conséquence la synchronisation est désactivée par défaut sur un Cisco:
     no synchronisation
     # Sans lookpback lors de la sélection du meilleur chemin un critère est le plus haut router-id.
-    # Si la loopback est positionné c'est elle qu sert d'id
-    # A défaut c'est l'IP la plus élevée qui sert d'id 
+    # Si la loopback est positionné c'est elle qu sert d'id. A défaut c'est l'IP la plus élevée qui sert d'id. le router-id apporte peu de choses. 
     bgp router-id 1.1.1.1 
-    # déclaration des réseaux à annoncer
-    network 192.168.1.0 mask 255.255.255.0
-    network 192.168.2.0 mask 255.255.255.0
+    
     # déclaration du voisin BGP et de son AS
     neighbor 10.12.1.1 remote-as 65200
-    # permet d'accéder aux résultats de 
-    # sh ip bgp neighbors 1.1.1.1 received-routes
+    # Network permet de déclarer les réseaux à annoncer. Contrairement à OSPF cette déclaration n'est pas liée à une interface, c'est juste une déclaration...
+    network 192.168.1.0 mask 255.255.255.0
+    network 192.168.2.0 mask 255.255.255.0      
+    # soft-reconfiguration permet d'accéder aux routes reçues d'un peer BGP
+    # avec la commande "sh ip bgp neighbors 1.1.1.1 received-routes"
     neighbor 10.12.1.1 soft-reconfiguration inbound
 ```
-## configuration BGP avec loopbacks  
-```ios
+## Configuration BGP avec une LoopBack
 
+Comme avec le protocoel OSPF annoncer le protocole à un voisin depuis une IP de loopback nous protège d'une panne matérielle et évite de casser la session BGP entre les deux routeurs. 
+
+```ios
+# Notre loopback
 interface Loopback2
  ip address 2.2.2.2 255.255.255.255
 !
@@ -46,21 +60,22 @@ router bgp 65535
    #
    neighbor 1.1.1.1 remote-as 65531
 
-   # le TTL du "packet" bgp est de un ce qui pose problème avec le saut supplémentaire du à la loopback: on passe donc le TTL à 2 
-   # afin d'atteindre la loopback on change le TTL du paquet BGP à deux
+   # Le TTL des paquets eBGP lors de l'établissement d'une session est de 1.
+   # Une LoopBack étant à 2 sauts de l'interface du routeur eBGP le peer supprimera 
+   # le paquet avant son arrivée à la LoopBack: on change le TTL des paquets eBGP à 2
+   # ce n'est pas nécessaire avec iBGP ou le TTL est de 255.
    neighbor 1.1.1.1 ebgp-multihop 2
+
    # Une autre façon de faire désactiver le besoin de BGP d'avoir une 
    # connexion directe avec le routeur voisin 
    neighbor 1.1.1.1 disable-connected-check
 
-   # indique au routeur d'utiliser toute interface
-   # opérationnelle pour établir les connexions TCP 
-   # tant que Lo2 est active et
-   # configurée avec une adresse IP
-   # = plus de stabilité et de résilience
+   # On indique avec update-source au routeur d'utiliser toutes les interfaces
+   # opérationnelles pour établir les connexions  BGP TCP avec le peer. 
+   # tant que Loopback1 est "up" et est configurée avec une adresse IP
+   
    neighbor 1.1.1.1 update-source Loopback1
-   # L'AS number est le même ici ce qui permet
-   # de qualifier cette session comme une session iBGP
+   # L'AS number est le même ici que celui de notre routeur. Le "peer" étant dans notre AS on a donc une session iBGP avec ce "peer"
    neighbor 5.5.5.5 remote-as 65535
    neighbor 5.5.5.5 update-source Loopback1
 
@@ -69,75 +84,87 @@ router bgp 65535
    # En faisant un "lookup" dessus on obtient l'
    # interface de sortie du routeur.
    # Quand une route BGP est transmise d'un routeur eBGP à un
-   # routeur iBGP le next_hop reste inchangé.
-   # Le next-hop-self devient l'IP du routeur source iBGP 
+   # routeur iBGP le next_hop reste inchangé et donc le routeur iBGP ne sait pas comment atteindre l'IP de ce NextHop.
+   # Le next-hop-self permet que l'IP du routeur source iBGP devienne le next-hop à atteindre 
    neighbor 5.5.5.5 next-hop-self
 
-# route statique obligatoire afin d'atteindre la loopback qui
-# est derrière l'interface physique du routeur
+# Cette route statique obligatoire afin d'atteindre la loopback qui
+# est derrière l'interface physique du routeur (Voir la solution IGP ci-dessous)
 ip route 1.1.1.1 255.255.255.255 11.0.0.100
+
 ```
 
-## Configuration BGP la plus pro avec address-family: 
+## Configuration BGP plus "pro" 
 
-Par Cisco considère que les peers BGP sont ipv4... ce qui n'est pas vrai
-Il vaut donc mieux l'éviter:
-```ios
-no bgp default ipv4-unicast
-```
-
-```ios
-router bgp 300
- bgp log-neighbor-changes
- neighbor 4.4.4.4 remote-as 100
- neighbor 4.4.4.4 ebgp-multihop 2
- neighbor 4.4.4.4 update-source Loopback1
- !
- address-family ipv4 # ipv6 
-  neighbor 4.4.4.4 activate # activation explicite du protocole
-  no auto-summary
-  no synchronization
- exit-address-family
-!
-```
-C'est ospf qui annonce les "loopbacks" 
-
+Cisco considère que les peers BGP sont IPv4... ce qui n'est pas forcément vrai.
+Il vaut donc mieux l'éviter en activant spécifiquement les protocoles utilisés par chaque voisin.
 ```ios
 interface Loopback3
  ip address 3.3.3.3 255.255.255.255
- ip ospf network point-to-point
  ip ospf 1 area 0
 !
+interface FastEthernet0/0
+ ip address 10.0.23.1 255.255.255.252
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/1
+ ip address 35.0.0.2 255.255.255.252
+ duplex auto
+ speed auto
+!
+# C'est OSPF qui permet au peer BGP de dialoguer de loopback à loopback 
 router ospf 1
  log-adjacency-changes
+ passive-interface FastEthernet0/1
  network 3.3.3.3 0.0.0.0 area 0
- network 35.0.0.0 0.0.0.3 area 0
-
+ network 10.0.23.0 0.0.0.255 area 0
+!
+router bgp 300
+# Plus de peer IPV4 actif par défaut:
+ no bgp default ipv4-unicast
+ bgp log-neighbor-changes
+ neighbor 1.1.1.1 remote-as 300
+ neighbor 1.1.1.1 update-source Loopback3
+ neighbor 35.0.0.1 remote-as 200
+ !
+ address-family ipv4
+  # activations explicites des "peers"
+  neighbor 1.1.1.1 activate
+  neighbor 35.0.0.1 activate
+  neighbor 1.1.1.1 soft-reconfiguration inbound
+  neighbor 35.0.0.1 soft-reconfiguration inbound
+  no auto-summary
+  no synchronization
+  network 35.0.0.0 mask 255.255.255.252
+ exit-address-family
 ```
 
-## agrégation de routes
+## Agrégation de routes
 
+L'aggrégation des routes est un enjeux important pour la rapidité de l'internet.
 ```ios
-    aggregate address 192.168.0.0 255.255.0.0 summary-only 
-    # as-set conserve les attributs initiaux 
-    aggregate address 10.202.0.0 255.255.0.0 as-set summary-only 
+aggregate address 192.168.0.0 255.255.0.0 summary-only 
+# as-set conserve les attributs initiaux 
+aggregate address 10.202.0.0 255.255.0.0 as-set summary-only 
 ```
-
-## injection de la route par défaut
   
+## injection de la route par défaut
+
+On ne peut annoncer une route à un peer BGP seulement si cette route est présente dans la table de routage (RIB). L'astuce est d'annoncer une route statique qui ne sera jamais sélectionnée afin que la route soit présente dans la table de routage et puisse être diffuser par BGP comme ici sur une route par défaut.
+
 ```ios
 router bgp 65535
-   # Injecte la route par défaut dans BGP seulement si la route par défaut est présente dans la table de routage, 
-   # ou apprise d'un autre protocole
    network 0.0.0.0
-# command enables the router to advertise the default route because the router thinks that 0.0.0.0 is directly connected via Null0 - si c'est une stub AS il faut le faire pointer vers l'IP du voisin BGP de l'ISP.
+
 ip default route 0.0.0.0 0.0.0.0 null0
 ```
+
 
 ```ios
 router bgp 65535
    # oblige la création artificielle de la route et l'injecte dans la RIB BGP, que la 
-   # route soit présente ou pas dans la table de routage de l4IGP
+   # route soit présente ou pas dans la table de routage de l'IGP
    default-information originate
 ```
 
@@ -174,7 +201,6 @@ sh run | s bgp
 ```
 ### show ip bgp
 ```ios
-show ip bgp
 show ip bgp neighbor
 show ip bgp neighbors | include BGP
 
@@ -219,11 +245,12 @@ Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State
 5.5.5.5         4        65535     122     120        7    0    0 01:42:46        3
 ```
 
-## lors des updates BGP et avec les routes locales
-  - Quand un message BP UPDATE arrive, l'information est mise dans la table BGP.
-  - L'algorithme BGP cherche le meilleur chemin
-  - La RIB du routeur est mise à jour et les voisins aussi.
-  - la version de la table est incrémentée pour chaque changement de **meilleur chemin**
+## Cinématique des updates BGP et avec les routes locales
+
+ - Quand un message BGP UPDATE arrive, l'information est mise dans la table BGP.
+ - L'algorithme BGP cherche le meilleur chemin.
+ - La RIB du routeur est mise à jour et les voisins aussi.
+ - la version de la table est incrémentée pour chaque changement de **meilleur chemin**
   
 
 # topologie
@@ -232,8 +259,12 @@ Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State
 # nexthop
 - [avant-après_nexthop_self](nexthop-self.png)
  
+# Utilitaires
 
-# biblio 
+- "Looking Glass" :<https://www.cogentco.com/en/looking-glass>
+- "Routing Information Service" :<https://ris-live.ripe.net/>
+- "Julia Evans Tools to explore BGP": <https://jvns.ca/blog/2021/10/05/tools-to-look-at-bgp-routes/>
+# Biblio 
   - Exemples config eBGP/iBGP Cisco: 
     <https://www.cisco.com/c/en/us/support/docs/ip/border-gateway-protocol-bgp/13751-23.html>
   - BGP fundamental Cisco: 
