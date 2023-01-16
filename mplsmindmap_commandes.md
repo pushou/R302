@@ -173,7 +173,7 @@ router bgp 200
   25     Untagged    11.11.11.11/32[V] 0          Fa0/0      192.168.1.11 
   26     Aggregate   192.168.1.0/24[V] 0    
 ```
-
+## debug ldp
 ```ios
 show tag-switching tdp neighbor 
   Peer LDP Ident: 2.2.2.2:0; Local LDP Ident 1.1.1.1:0
@@ -186,26 +186,9 @@ show tag-switching tdp neighbor
           10.0.12.2       2.2.2.2         10.0.23.2       10.0.24.2     
   ```
 
-```ios
-sh bgp vpnv4 unicast all summary 
-  BGP router identifier 1.1.1.1, local AS number 200
-  BGP table version is 33, main routing table version 33
-  15 network entries using 2055 bytes of memory
-  20 path entries using 1360 bytes of memory
-  17/14 BGP path/bestpath attribute entries using 2108 bytes of memory
-  7 BGP extended community entries using 360 bytes of memory
-  0 BGP route-map cache entries using 0 bytes of memory
-  0 BGP filter-list cache entries using 0 bytes of memory
-  BGP using 5883 total bytes of memory
-  BGP activity 15/0 prefixes, 22/2 paths, scan interval 15 secs
- 
-  Neighbor        V    AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State/PfxRcd
-  3.3.3.3         4   200      71      73       33    0    0  00:58:42        7
-  4.4.4.4         4   200      71      74       33    0    0  00:58:39        7
 
-```
 
-  ### Vérifiez la correspondance label-fec
+## Vérifiez la correspondance label-fec
   ```ios
   R1#show tag-switching tdp neighbor 
     Peer LDP Ident: 2.2.2.2:0; Local LDP Ident 1.1.1.1:0
@@ -218,7 +201,7 @@ sh bgp vpnv4 unicast all summary
           10.0.12.2       2.2.2.2         10.0.23.2       10.0.24.2     
 ```
 
-### Vérifiez la forwarding table
+## Vérifiez la forwarding table
 ```ios
 
 show tag-switching forwarding-table 

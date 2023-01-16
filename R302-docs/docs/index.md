@@ -1,1 +1,1 @@
-./docs/aplat.md
+aplat.md
