@@ -49,7 +49,7 @@ markmap:
 - Terminologie Cisco
   CE -> PE  →P  P ... →E -> CE
   avec la terminologie Officielle
-  CE -> ingress LER -> LSR - LSR -egress LER.
+  CE -> ingress LER -> LSR - LSR -egress LER -> CE
 
 ## FEC ou classe d'équivalence
 

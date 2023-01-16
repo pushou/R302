@@ -5,11 +5,15 @@ markmap:
 ---
 
 # Commandes Linux pour voir les AS traversées et plus encore
-```ios
-traceroute -A
+- mtr
+```bash
+  mtr --tcp --port 443 --show-ips --mpls --aslookup --curses www.umontpellier.fr
+  mtr -P 443 -T  -b -e -z -t 194.199.227.220
+  mtr  -P 443 -T -c 2  -b -e -z -t -j 194.199.227.220 | from json|flatten|get hubs|flatten
 ```
-```ios
-mtr --tcp --port 443 --show-ips --mpls --aslookup --curses
+- traceroute
+```bash
+traceroute -A -n -e -i eth0 8.8.8.8
 ```
 
 # Commandes Cisco
@@ -94,7 +98,7 @@ ip route 1.1.1.1 255.255.255.255 11.0.0.100
 
 ```
 
-## Configuration BGP plus "pro" 
+## Configuration BGP avancée 
 
 Cisco considère que les peers BGP sont IPv4... ce qui n'est pas forcément vrai.
 Il vaut donc mieux l'éviter en activant spécifiquement les protocoles utilisés par chaque voisin.
@@ -142,10 +146,12 @@ router bgp 300
 
 ## Agrégation de routes
 
-L'aggrégation des routes est un enjeux important pour la rapidité de l'internet.
+L'agrégation des routes est un enjeu important pour la rapidité de l'internet.
+
+- as-set conserve les attributs initiaux des routes vers les réseaux
+  
 ```ios
 aggregate address 192.168.0.0 255.255.0.0 summary-only 
-# as-set conserve les attributs initiaux 
 aggregate address 10.202.0.0 255.255.0.0 as-set summary-only 
 ```
   
