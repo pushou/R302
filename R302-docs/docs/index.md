@@ -1,5 +1,1 @@
-
-BGP: généralités
-
-{!aplat.md!}
-
+./docs/aplat.md
