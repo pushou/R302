@@ -1,13 +1,14 @@
 site_name: BUT R302 Réseaux d'opérateurs 
 
 nav:
-  - 'Généralités BGP(format mindmap)': index.md
-  - 'Généralités BGP (format texte)': aplat.md
-  - 'Commandes BGP': commandes_aplat.mm.md
-  - 'Généralités MPLS(format mindmap)': mpls.mm.md
-  - 'Généralités MPLS (format texte)': mpls_aplat.mm.md
-  - 'Commandes MPLS (format mindmap)': mpls_cmd.mm.md
-  - 'Commandes MPLS (format texte)': mpls_cmd_aplat.mm.md
+  - 'Généralités BGP (mindmap)': index.md
+  - 'Généralités BGP (texte)': aplat.md
+  - 'Commandes BGP (mindmap)': bgp_cmd.html 
+  - 'Commandes BGP (texte)': commandes_aplat.mm.md
+  - 'Généralités MPLS (mindmap)': mplsmm.md
+  - 'Généralités MPLS (texte)': mpls_aplat.mm.md
+  - 'Commandes MPLS (mindmap)': mpls_cmd.html
+  - 'Commandes MPLS (texte)': mpls_cmd_aplat.mm.md
 plugins:
   - markmap:
        base_path: docs

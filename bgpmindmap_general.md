@@ -54,7 +54,6 @@ markmap:
 - iBGP 
   - Il est fait pour communiquer entre routeurs BGP dans un même AS (TTL des paquets à 255).
   - L'attribut AS_PATH n'est pas modifié par iBGP, il n'y a donc pas de détection possible des boucles avec iBGP.
- 
   - Dans le cas d'un AS de transit les routeurs traversés qui n'implémentent qu'un IGP ne connaissent 
     pas les routes issues de BGP. Il faut donc soit des routes statiques, soit du "tunelling" MPLS, soit du fullmesh iBGP ("route reflector"), soit redistribuer les routes BGP dans l'IGP mais ...
     - Il n'est pas conseiller de redistribuer les routes BGP dans l'IGP : il peut y avoir beaucoup de routes BGP...trop pour un IGP qui n'est pas taillé pour cela. Il n'y a pas non plus d'équivalence des métriques IGP ni de traductions possibles des attributs BGP dans le "langage" de l'IGP. 
@@ -75,18 +74,16 @@ Les notions d'"Address Family Identifier" (AFI) et de "Subsequent Address Family
 ## AS Number (ASN)
 
 - privés: 64512-65535
-- publics: le reste ... les ASN sont assignés par le "IANA". 
+- publics: le reste ... les ASN sont assignés par le "IANA"
 
-
-
-## Messages BGP échangés sur le port tcp 179.
+## Messages BGP échangés sur le port tcp 179
 
 - OPEN (établissement de l'adjacence).
 - UPDATE (échange, retraits de routes).
 - NOTIFICATION (message d'erreurs).
-- KEEPALIVE (vérification que le "peer" est vivant toutes les 60 secondes, au bout de 180 secondes toutes les routes provenant de ce "peer" sont supprimées).
-
- ## BGP: les différents états de la relation entre voisin BGP ("neighbor state"):
+- KEEPALIVE (vérification que le "peer" est vivant toutes les 60 secondes, au bout de 180 secondes toutes les routes provenant de ce "peer" seront supprimées).
+  
+## les différents états de la relation entre deux voisins BGP ("neighbor state")
 
 - Idle (démarrage de la session connexion au voisin)
 - Connect (après 3WayHandshake -> reset -> message OPEN envoyé par le routeur).

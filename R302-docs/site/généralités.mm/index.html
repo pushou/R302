@@ -149,7 +149,7 @@
   
     <li class="md-nav__item">
       <a href=".." class="md-nav__link">
-        Généralités BGP(mindmap)
+        Généralités BGP (mindmap)
       </a>
     </li>
   
@@ -164,7 +164,22 @@
   
     <li class="md-nav__item">
       <a href="../aplat/" class="md-nav__link">
-        Généralités BGP(idem que précédemment mais sans mindmap)
+        Généralités BGP (texte)
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bgp_cmd.html" class="md-nav__link">
+        Commandes BGP (mindmap)
       </a>
     </li>
   
@@ -179,7 +194,67 @@
   
     <li class="md-nav__item">
       <a href="../commandes_aplat.mm/" class="md-nav__link">
-        Commandes BGP
+        Commandes BGP (texte)
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mplsmm/" class="md-nav__link">
+        Généralités MPLS (mindmap)
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mpls_aplat.mm/" class="md-nav__link">
+        Généralités MPLS (texte)
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mpls_cmd.html" class="md-nav__link">
+        Commandes MPLS (mindmap)
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mpls_cmd_aplat.mm/" class="md-nav__link">
+        Commandes MPLS (texte)
       </a>
     </li>
   
@@ -254,29 +329,22 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#path-vector-protocol-avec-un-mecanisme-de-prevention-des-boucles-un-as_path-contenant-las-auquel-appartient-le-routeur-est-mis-de-cote" class="md-nav__link">
-    PATH VECTOR protocol avec un mécanisme de prévention des boucles (un AS_PATH contenant l'AS auquel appartient le routeur est mis de côté)
+  <a href="#messages-bgp-echanges-sur-le-port-tcp-179" class="md-nav__link">
+    Messages BGP échangés sur le port tcp 179
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#bgp-messages" class="md-nav__link">
-    BGP messages
+  <a href="#les-differents-etats-de-la-relation-entre-deux-voisins-bgp-neighbor-state" class="md-nav__link">
+    les différents états de la relation entre deux voisins BGP ("neighbor state")
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#bgp-neighbor-state" class="md-nav__link">
-    BGP neighbor state
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#agregation-de-routes-avec-bgp" class="md-nav__link">
-    Agrégation de routes avec BGP
+  <a href="#interet-de-lagregation-de-prefixes-avec-bgp" class="md-nav__link">
+    Intérêt de l'agrégation de préfixes avec BGP
   </a>
   
 </li>
@@ -306,109 +374,115 @@
 <h1 id="bpg">BPG</h1>
 <h2 id="definitions">Définitions</h2>
 <ul>
-<li>Un "Autonomous System" est un ensemble de réseaux géré par une seule entité.</li>
+<li>Un "Autonomous System" est un ensemble de réseaux gérés par une seule entité. Par exemple "RENATER" qui fédère les réseaux des universités françaises.</li>
 <li>
-<p>ISP: Entreprises dont le métier est de connecter d'autres entreprises à l'internet.</p>
+<p>Un ISP est une entreprise dont le métier est de connecter d'autres entreprises à l'internet.</p>
 <ul>
-<li>Les ISP de tiers 1 structurent  l'internet</li>
-<li>Les tiers 2 vendent et achètent du transit.</li>
-<li>Les tiers 3 ne fournissent pas de transit. Ils peuvent être "multi-homés"(deux chemins ou plus vers l'internet) afin d'assurer la haute disponibilité des accès et avoir les chemins les plus rapides vers une ressource prisée.</li>
+<li>Les "ISP" de tiers 1 structurent l'internet.</li>
+<li>Les "tiers 2" vendent et achètent du transit.</li>
+<li>Les "tiers 3" ne fournissent pas de transit. Ils peuvent être "multi-homés"(deux chemins ou plus vers l'internet) afin d'assurer la haute disponibilité des accès et avoir les chemins les plus rapides vers une ressource prisée comme un "GAFAM".</li>
 </ul>
 </li>
 <li>
-<p>Les points d'échanges sont des lieux physiques ou s'interconnectent les ISP afin de faciliter les échanges de données (France XI par exemple).</p>
+<p>Les points d'échanges sont des lieux physiques où s'interconnectent les "ISP" afin de faciliter les échanges de données (France XI par exemple).</p>
 </li>
-<li>Un "Point Of Presence" Pop est un lieu physique permettant l'échange de données pour l'internet avec des entités locales.</li>
+<li>Un "Point Of Presence" ("POP") est un lieu physique permettant l'échange de données pour l'internet avec des entités locales.</li>
 </ul>
 <h2 id="relations-entre-as">Relations entre AS</h2>
 <ul>
-<li>Le Transit est le service vendu par un ISP pour donner accès à Internet.</li>
-<li>Le peering est l’échange réciproque de flux souvent dans un but économique.</li>
-<li>Un peering n'est pas transitif.</li>
-<li>Il ne donne pas accès à tous les réseaux de l'AS auquel on est connecté.</li>
-<li>voir <a href="https://www.peeringdb.com/net/433">https://www.peeringdb.com/net/433</a> comme exemple.</li>
-<li>Un peer est un routeur d'un autre AS avec lequel on établit une relation de voisinage BGP.</li>
+<li>Le "transit" est le service vendu par un "ISP" (Internet Service Provider) pour donner accès à Internet.</li>
+<li>Un "peer" est un routeur d'un autre AS avec lequel on établit une relation de "peering".</li>
+<li>Le "peering" est l’échange réciproque de flux souvent dans un but économique (voir <a href="https://www.peeringdb.com/net/433">https://www.peeringdb.com/net/433</a> comme exemple).</li>
+<li>Un "peering" n'est pas transitif : ce n'est pas parce que A à un "peer" avec B et avec C que C a un "peer" avec B.</li>
+<li>Un "peering" ne donne pas accès à tous les réseaux de l'"AS" auquel on est connecté.</li>
 </ul>
 <h2 id="caracteristiques-de-bgp">Caractéristiques de BGP</h2>
 <ul>
-<li>La métrique de BGP est de type "distance-vector" et correspond au nombre d'AS traversés. L'attribut de chemins "AS_PATH" qui contient les AS traversés permet (mais  il n'est pas le seul) à BGP de choisir le meilleur chemin.</li>
-<li>Pas de paquets pour l'auto-découverte donc nécessité de déclarer l'IP du voisin pour communiquer.</li>
-<li>Le temps de convergence de BGP est plus long que celui d'un IGP.</li>
-<li>Utilisation du port TCP 179 pour les échanges entre routeur BGP. </li>
-<li>Bit 'don't fragment' activé dont a besoin le mécanisme de "Path MTU" pour émettre les paquets.</li>
-<li>BGP a besoin d'un IGP. Une route par défaut ne suffit pas.</li>
+<li>La métrique de BGP est de type "distance-vector" et correspond au nombre d'"AS" traversés. L'attribut de chemins "AS_PATH" qui contient les AS traversés permet (mais il n'est pas le seul critère) à BGP de choisir le meilleur chemin: c'est le plus court "AS-PATH" qui est retenu comme chemin.</li>
+<li>BGP dispose d'un mécanisme de prévention des boucles : si un "AS_PATH" contient l'"AS" auquel appartient le routeur ce vecteur est mise de côté lors du choix de la meilleure route.</li>
+<li>Il n'y a pas de paquets "Hello" pour l'auto-découverte des "peers" entre eux et donc il est nécessaire de déclarer l'IP du voisin pour communiquer.</li>
+<li>Le temps de convergence de BGP est plus long que celui d'un IGP. En contrepartie, il gère des centaines de milliers de routes ce que ne peut faire un IGP.</li>
+<li>Le port TCP 179 est utilisé pour les échanges entre routeurs BGP. </li>
+<li>Le bit "don't fragment" est activé et est utilisé par le mécanisme de "Path MTU".</li>
+<li>BGP a besoin d'un IGP pour partager les adresses internes à l'AS. Une route par défaut ne suffit pas.</li>
 <li>Deux règles pour BGP :</li>
-<li>Principes de synchronisation : Les routes apprises via IBGP doivent être également
-apprises par un IGP (OSPF,…) avant d’être annoncées à d’autres peers d’AS différents.</li>
-<li>La redistribution des routes de l'IGP dans BGP est possible mais distribuer des routes BGP dans l'IGP est beaucoup plus risquée.  </li>
-<li>La table BGP est appelée "Loc-RIB table" et est distincte de la RIB.</li>
+<li><strong>Principes de synchronisation</strong> : Les routes apprises via iBGP doivent être également dans la table de routage de votre IGP (OSPF,…) avant d’être annoncées à d’autres peers d’AS différents. Cette règle a pour but de ne pas accepter de transit qu'un routeur hors du réseau iBGP ne pourrait pas router conduisant à devenir un "black hole". Ce mécanisme ralentit la convergence. Les routeurs supportant dans leur immense majorité iBGP, la synchronisation est donc désactivée par défaut chez Cisco.</li>
+<li>
+<p><strong>Split-Horizon</strong>: une route apprise par une session iBGP n'est jamais transmise à un autre voisin iBGP afin d'éviter les boucles. On est donc obligé de faire du "full-mesh" entre tous les routeurs iBGP afin que ces routeurs iBGP se connaissent.</p>
+</li>
+<li>
+<p>La table BGP est appelée "Loc-RIB table" (faire "show ip bgp") et est distincte de la RIB (faire "show ip route"). En conséquence,  il faut vérifier les deux tables : si la route exacte n'existe pas dans la "RIB BGP" ne transmettra pas la route à un autre AS </p>
+</li>
 <li>Les routes apprises dans iBGP sont redistribuées dans eBGP et vice-versa. Mais il n'y a pas de redistribution des routes d'un routeur iBGP vers un routeur iBGP.</li>
 </ul>
 <h2 id="sessions">Sessions</h2>
 <ul>
 <li>eBGP</li>
 <li>C'est une session BGP entre deux routeurs appartenant à des AS différents.</li>
-<li>le TTL du paquet BGP est de 1 (le routeur averti doit être en frontal du nôtre et donc à une distance de 1 suffit)</li>
-<li>Le routeur averti vérifie que son AS n'est pas dans l'AS_PATH reçu. </li>
-<li>Le routeur averti positionne le NEXT_HOP pour cet AS à l'IP source du routeur source établissant la connexion.</li>
-<li>Le routeur averti ajoute son ASN dans l'AS_PATH.</li>
+<li>Le TTL du paquet BGP est de 1 (le routeur averti doit être en frontal du nôtre et donc à une distance de 1 suffit et sécurise les échanges)</li>
+<li>Le routeur averti vérifie que son AS n'est pas dans l'"AS_PATH" reçu. </li>
+<li>Le routeur averti positionne le "NEXT-HOP" pour cette AS à l'IP source du routeur source établissant la connexion.</li>
+<li>Le routeur averti ajoute son ASN dans l'"AS_PATH".</li>
 <li>
-<p>Distance administrative 20 pour BGP.</p>
+<p>La distance administrative est de 20 pour BGP.</p>
 </li>
 <li>
 <p>iBGP </p>
 </li>
-<li>Il est fait pour communiquer entre routeurs BGP dans un même AS (TTL à 255).</li>
-<li>L'attribut AS_PATH n'est pas modifié par iBGP, il n'y a donc pas de détection possible des boucles.</li>
-<li>Split-Horizon: une route apprise par une session iBGP n'est jamais transmise à un autre voisin iBGP. On est donc
-    obligé de faire du "full-mesh" entre tous les routeurs iBGP.
-    dans l'IGP pour les transmettre au routeur eBGP de bordure</li>
-<li>Dans le cas ou l'AS sert de transit les routeurs traversés qui n'implémentent qu'un IGP ne connaissent 
-    pas les routes issues de BGP. Il faut donc soit des routes statiques, soit du tunelling MPLS, soit du fullmesh iBGP (route reflector), soit redistribuer les routes BGP dans l'IGP mais...</li>
-<li>Il n'est pas conseiller de redistribuer les routes BGP dans l'IGP (Il peut y avoir beaucoup de routes BGP...
-    trop pour un IGP qui n'est pas taillé pour cela. Il n'y a pas non plus d'équivalence des métriques IGP ni 
-    de traductions possibles des attributs BGP dans le "langage" de l'IGP.</li>
-<li>Distance administrative 200.</li>
+<li>Il est fait pour communiquer entre routeurs BGP dans un même AS (TTL des paquets à 255).</li>
+<li>L'attribut AS_PATH n'est pas modifié par iBGP, il n'y a donc pas de détection possible des boucles avec iBGP.</li>
+<li>Dans le cas d'un AS de transit les routeurs traversés qui n'implémentent qu'un IGP ne connaissent 
+    pas les routes issues de BGP. Il faut donc soit des routes statiques, soit du "tunelling" MPLS, soit du fullmesh iBGP ("route reflector"), soit redistribuer les routes BGP dans l'IGP mais ...<ul>
+<li>Il n'est pas conseiller de redistribuer les routes BGP dans l'IGP : il peut y avoir beaucoup de routes BGP...trop pour un IGP qui n'est pas taillé pour cela. Il n'y a pas non plus d'équivalence des métriques IGP ni de traductions possibles des attributs BGP dans le "langage" de l'IGP. </li>
+<li>La redistribution des routes de l'IGP dans BGP n'est pas souhaitable non plus : il vaut mieux que tous les routeurs internes à l'AS supportent iBGP avec une topologie "full mesh" qui peut être facilitée par un "RR" (réflecteur de route).</li>
+</ul>
+</li>
+<li>L'attribut "NEXT_HOP" reçu lors de l'échange BGP indique quel est la prochaine IP pour atteindre un réseau. L'attribut "NEXT_HOP" n'est pas mis à jour lors sa transmission via iBGP à un routeur. Ce dernier se retrouve avec un "NEXT_HOP" qui est celui du peer BGP du premier routeur et il lui faut donc un chemin pour le joindre :  <ul>
+<li>Soit en injectant ce "NEXT_HOP"  dans l'IGP de l'AS (déclaration Network dans le routeur eBGP de bordure de notre AS).</li>
+<li>Soit en utilisant la commande "next-hop-self" qui permet de modifier le "NEXT_HOP" avec l'adresse du routeur.</li>
+</ul>
+</li>
+<li>La distance administrative de iBGP est de 200. </li>
 </ul>
 <h2 id="mp-bgp-multiprotocol-bgp">MP-BGP (multiprotocol BGP)</h2>
 <ul>
-<li>Protocole BGP permet de travailler avec plusieurs familles et sous familles IP.</li>
-<li>AFI (Address Family Identifier): IPv4 IPv6</li>
-<li>SAFI (Subsequent Address Family Identifier): Unicast ou Multicast</li>
-<li>Utilisation d'attributs (Path Attributes) NLRI afin de transporter ces informations.</li>
+<li>Protocole BGP permet de travailler avec plusieurs familles et sous familles IP.
+Les notions d'"Address Family Identifier" (AFI) et de "Subsequent Address Family Identifier" (SAFI) correspondent au format des préfixes transportés:</li>
+<li>Les adresses IPv4 sont identifiées en AFI =&gt; IPv4 (1) et SAFI = unicast ou multicast (1).</li>
+<li>Les adresses VPN IPv4 sont identifiées en AFI = IPv4 (1), SAFI = VPN (128). Une des particularités des routes VPN est d'avoir un label associé.</li>
+<li>On utilise l'attribut "Path Attributes NLRI" afin de transporter ces informations.</li>
 </ul>
 <h2 id="as-number-asn">AS Number (ASN)</h2>
 <ul>
 <li>privés: 64512-65535</li>
-<li>publics: le reste ... les ASN sont assignés par IANA. </li>
+<li>publics: le reste ... les ASN sont assignés par le "IANA"</li>
 </ul>
-<h2 id="path-vector-protocol-avec-un-mecanisme-de-prevention-des-boucles-un-as_path-contenant-las-auquel-appartient-le-routeur-est-mis-de-cote">PATH VECTOR protocol avec un mécanisme de prévention des boucles (un AS_PATH contenant l'AS auquel appartient le routeur est mis de côté)</h2>
-<h2 id="bgp-messages">BGP messages</h2>
+<h2 id="messages-bgp-echanges-sur-le-port-tcp-179">Messages BGP échangés sur le port tcp 179</h2>
 <ul>
-<li>OPEN (établissement de l'adjacence)</li>
-<li>UPDATE (échange, retraits de routes)</li>
-<li>NOTIFICATION (message d'erreurs)</li>
-<li>KEEPALIVE (vérification que le peer est vivant)</li>
+<li>OPEN (établissement de l'adjacence).</li>
+<li>UPDATE (échange, retraits de routes).</li>
+<li>NOTIFICATION (message d'erreurs).</li>
+<li>KEEPALIVE (vérification que le "peer" est vivant toutes les 60 secondes, au bout de 180 secondes toutes les routes provenant de ce "peer" seront supprimées).</li>
 </ul>
-<h2 id="bgp-neighbor-state">BGP neighbor state</h2>
+<h2 id="les-differents-etats-de-la-relation-entre-deux-voisins-bgp-neighbor-state">les différents états de la relation entre deux voisins BGP ("neighbor state")</h2>
 <ul>
 <li>Idle (démarrage de la session connexion au voisin)</li>
-<li>Connect (après 3WayHandshake -&gt; reset -&gt; message OPEN envoyé par le routeur à l'IP la plus haute)</li>
-<li>Active ( l'autre routeur répond par un message Open vers OpenSet)</li>
-<li>OpenSent (sans erreur migration vers OpenConfirm)</li>
+<li>Connect (après 3WayHandshake -&gt; reset -&gt; message OPEN envoyé par le routeur).</li>
+<li>Active (l'autre routeur répond par un message Open vers OpenSet)</li>
+<li>OpenSent (sans erreurs migration vers OpenConfirm)</li>
 <li>OpenConfirm (BGP attend des messages KEEPALIVE ou NOTIFICATION)</li>
 <li>Established (échange de routes via le message UPDATE)</li>
 </ul>
-<h2 id="agregation-de-routes-avec-bgp">Agrégation de routes avec BGP</h2>
+<h2 id="interet-de-lagregation-de-prefixes-avec-bgp">Intérêt de l'agrégation de préfixes avec BGP</h2>
 <ul>
-<li>Afin de réduire la taille des tables de routages</li>
+<li>Afin de réduire la taille des tables de routages.</li>
 <li>Améliorer la stabilité en cachant les "route flaps". </li>
 </ul>
 <h2 id="rfc">RFC</h2>
 <ul>
-<li>RFC 1105 juin 1989</li>
-<li>RFC 1654 juillet 1994</li>
-<li>RFC 2283 février 1998</li>
+<li>RFC 1105 juin 1989.</li>
+<li>RFC 1654 juillet 1994.</li>
+<li>RFC 2283 février 1998.</li>
 </ul>
 
 
