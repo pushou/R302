@@ -163,7 +163,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../g%C3%A9n%C3%A9ralit%C3%A9s.mm/" class="md-nav__link">
+      <a href="../bgpmindmap.html" class="md-nav__link">
         Généralités BGP (mindmap)
       </a>
     </li>
@@ -208,7 +208,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../mplsmm/" class="md-nav__link">
+      <a href="../mplgeneralite.html" class="md-nav__link">
         Généralités MPLS (mindmap)
       </a>
     </li>
@@ -303,6 +303,13 @@
         <li class="md-nav__item">
   <a href="#caracteristiques-de-bgp" class="md-nav__link">
     Caractéristiques de BGP
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deux-regles-pour-bgp" class="md-nav__link">
+    Deux règles pour BGP :
   </a>
   
 </li>
@@ -405,15 +412,13 @@
 <li>Le port TCP 179 est utilisé pour les échanges entre routeurs BGP. </li>
 <li>Le bit "don't fragment" est activé et est utilisé par le mécanisme de "Path MTU".</li>
 <li>BGP a besoin d'un IGP pour partager les adresses internes à l'AS. Une route par défaut ne suffit pas.</li>
-<li>Deux règles pour BGP :</li>
-<li><strong>Principes de synchronisation</strong> : Les routes apprises via iBGP doivent être également dans la table de routage de votre IGP (OSPF,…) avant d’être annoncées à d’autres peers d’AS différents. Cette règle a pour but de ne pas accepter de transit qu'un routeur hors du réseau iBGP ne pourrait pas router conduisant à devenir un "black hole". Ce mécanisme ralentit la convergence. Les routeurs supportant dans leur immense majorité iBGP, la synchronisation est donc désactivée par défaut chez Cisco.</li>
-<li>
-<p><strong>Split-Horizon</strong>: une route apprise par une session iBGP n'est jamais transmise à un autre voisin iBGP afin d'éviter les boucles. On est donc obligé de faire du "full-mesh" entre tous les routeurs iBGP afin que ces routeurs iBGP se connaissent.</p>
-</li>
-<li>
-<p>La table BGP est appelée "Loc-RIB table" (faire "show ip bgp") et est distincte de la RIB (faire "show ip route"). En conséquence,  il faut vérifier les deux tables : si la route exacte n'existe pas dans la "RIB BGP" ne transmettra pas la route à un autre AS </p>
-</li>
+<li>La table BGP est appelée "Loc-RIB table" (faire "show ip bgp") et est distincte de la RIB (faire "show ip route"). En conséquence,  il faut vérifier les deux tables : si la route exacte n'existe pas dans la "RIB BGP" ne transmettra pas la route à un autre AS </li>
 <li>Les routes apprises dans iBGP sont redistribuées dans eBGP et vice-versa. Mais il n'y a pas de redistribution des routes d'un routeur iBGP vers un routeur iBGP.</li>
+</ul>
+<h2 id="deux-regles-pour-bgp">Deux règles pour BGP :</h2>
+<ul>
+<li><strong>Principes de synchronisation</strong> : Les routes apprises via iBGP doivent être également dans la table de routage de votre IGP (OSPF,…) avant d’être annoncées à d’autres peers d’AS différents. Cette règle a pour but de ne pas accepter de transit qu'un routeur hors du réseau iBGP ne pourrait pas router conduisant à devenir un "black hole". Ce mécanisme ralentit la convergence. Les routeurs supportant dans leur immense majorité iBGP, la synchronisation est donc désactivée par défaut chez Cisco.</li>
+<li><strong>Split-Horizon</strong>: une route apprise par une session iBGP n'est jamais transmise à un autre voisin iBGP afin d'éviter les boucles. On est donc obligé de faire du "full-mesh" entre tous les routeurs iBGP afin que ces routeurs iBGP se connaissent.</li>
 </ul>
 <h2 id="sessions">Sessions</h2>
 <ul>

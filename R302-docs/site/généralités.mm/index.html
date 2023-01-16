@@ -13,7 +13,7 @@
     
     
       
-        <title>Généralités BGP (mindmap) - BUT R302 Réseaux d'opérateurs</title>
+        <title>BPG - BUT R302 Réseaux d'opérateurs</title>
       
     
     
@@ -95,7 +95,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Généralités BGP (mindmap)
+              BPG
             
           </span>
         </div>
@@ -161,115 +161,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Généralités BGP (mindmap)
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../bgpmindmap.html" class="md-nav__link">
         Généralités BGP (mindmap)
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#definitions" class="md-nav__link">
-    Définitions
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#relations-entre-as" class="md-nav__link">
-    Relations entre AS
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#caracteristiques-de-bgp" class="md-nav__link">
-    Caractéristiques de BGP
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sessions" class="md-nav__link">
-    Sessions
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#mp-bgp-multiprotocol-bgp" class="md-nav__link">
-    MP-BGP (multiprotocol BGP)
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#as-number-asn" class="md-nav__link">
-    AS Number (ASN)
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#messages-bgp-echanges-sur-le-port-tcp-179" class="md-nav__link">
-    Messages BGP échangés sur le port tcp 179
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#les-differents-etats-de-la-relation-entre-deux-voisins-bgp-neighbor-state" class="md-nav__link">
-    Les différents états de la relation entre deux voisins BGP ("neighbor state")
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#interet-de-lagregation-de-prefixes-avec-bgp" class="md-nav__link">
-    Intérêt de l'agrégation de préfixes avec BGP
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#rfc" class="md-nav__link">
-    RFC
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -312,7 +208,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../mplsmm/" class="md-nav__link">
+      <a href="../mplgeneralite.html" class="md-nav__link">
         Généralités MPLS (mindmap)
       </a>
     </li>
@@ -407,6 +303,13 @@
         <li class="md-nav__item">
   <a href="#caracteristiques-de-bgp" class="md-nav__link">
     Caractéristiques de BGP
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deux-regles-pour-bgp" class="md-nav__link">
+    Deux règles pour BGP :
   </a>
   
 </li>
@@ -509,15 +412,13 @@
 <li>Le port TCP 179 est utilisé pour les échanges entre routeurs BGP. </li>
 <li>Le bit "don't fragment" est activé et est utilisé par le mécanisme de "Path MTU".</li>
 <li>BGP a besoin d'un IGP pour partager les adresses internes à l'AS. Une route par défaut ne suffit pas.</li>
-<li>Deux règles pour BGP :</li>
-<li><strong>Principes de synchronisation</strong> : Les routes apprises via iBGP doivent être également dans la table de routage de votre IGP (OSPF,…) avant d’être annoncées à d’autres peers d’AS différents. Cette règle a pour but de ne pas accepter de transit qu'un routeur hors du réseau iBGP ne pourrait pas router conduisant à devenir un "black hole". Ce mécanisme ralentit la convergence. Les routeurs supportant dans leur immense majorité iBGP, la synchronisation est donc désactivée par défaut chez Cisco.</li>
-<li>
-<p><strong>Split-Horizon</strong>: une route apprise par une session iBGP n'est jamais transmise à un autre voisin iBGP afin d'éviter les boucles. On est donc obligé de faire du "full-mesh" entre tous les routeurs iBGP afin que ces routeurs iBGP se connaissent.</p>
-</li>
-<li>
-<p>La table BGP est appelée "Loc-RIB table" (faire "show ip bgp") et est distincte de la RIB (faire "show ip route"). En conséquence,  il faut vérifier les deux tables : si la route exacte n'existe pas dans la "RIB BGP" ne transmettra pas la route à un autre AS </p>
-</li>
+<li>La table BGP est appelée "Loc-RIB table" (faire "show ip bgp") et est distincte de la RIB (faire "show ip route"). En conséquence,  il faut vérifier les deux tables : si la route exacte n'existe pas dans la "RIB BGP" ne transmettra pas la route à un autre AS </li>
 <li>Les routes apprises dans iBGP sont redistribuées dans eBGP et vice-versa. Mais il n'y a pas de redistribution des routes d'un routeur iBGP vers un routeur iBGP.</li>
+</ul>
+<h2 id="deux-regles-pour-bgp">Deux règles pour BGP :</h2>
+<ul>
+<li><strong>Principes de synchronisation</strong> : Les routes apprises via iBGP doivent être également dans la table de routage de votre IGP (OSPF,…) avant d’être annoncées à d’autres peers d’AS différents. Cette règle a pour but de ne pas accepter de transit qu'un routeur hors du réseau iBGP ne pourrait pas router conduisant à devenir un "black hole". Ce mécanisme ralentit la convergence. Les routeurs supportant dans leur immense majorité iBGP, la synchronisation est donc désactivée par défaut chez Cisco.</li>
+<li><strong>Split-Horizon</strong>: une route apprise par une session iBGP n'est jamais transmise à un autre voisin iBGP afin d'éviter les boucles. On est donc obligé de faire du "full-mesh" entre tous les routeurs iBGP afin que ces routeurs iBGP se connaissent.</li>
 </ul>
 <h2 id="sessions">Sessions</h2>
 <ul>
@@ -605,42 +506,6 @@ Les notions d'"Address Family Identifier" (<strong>AFI</strong>) et de "Subseque
       </main>
       
         <footer class="md-footer">
-  
-    
-    <nav class="md-footer__inner md-grid" aria-label="Footer" >
-      
-        
-        <a href=".." class="md-footer__link md-footer__link--prev" aria-label="Previous: Généralités BGP (texte)" rel="prev">
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
-          </div>
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Previous
-              </span>
-              Généralités BGP (texte)
-            </div>
-          </div>
-        </a>
-      
-      
-        
-        <a href="../bgp_cmd.html" class="md-footer__link md-footer__link--next" aria-label="Next: Commandes BGP (mindmap)" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              Commandes BGP (mindmap)
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
-          </div>
-        </a>
-      
-    </nav>
   
   <div class="md-footer-meta md-typeset">
     <div class="md-footer-meta__inner md-grid">
