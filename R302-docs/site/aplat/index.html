@@ -337,7 +337,7 @@
       
         <li class="md-nav__item">
   <a href="#les-differents-etats-de-la-relation-entre-deux-voisins-bgp-neighbor-state" class="md-nav__link">
-    les différents états de la relation entre deux voisins BGP ("neighbor state")
+    Les différents états de la relation entre deux voisins BGP ("neighbor state")
   </a>
   
 </li>
@@ -417,42 +417,44 @@
 </ul>
 <h2 id="sessions">Sessions</h2>
 <ul>
-<li>eBGP</li>
+<li>
+<p><strong>eBGP</strong></p>
+<ul>
 <li>C'est une session BGP entre deux routeurs appartenant à des AS différents.</li>
 <li>Le TTL du paquet BGP est de 1 (le routeur averti doit être en frontal du nôtre et donc à une distance de 1 suffit et sécurise les échanges)</li>
 <li>Le routeur averti vérifie que son AS n'est pas dans l'"AS_PATH" reçu. </li>
 <li>Le routeur averti positionne le "NEXT-HOP" pour cette AS à l'IP source du routeur source établissant la connexion.</li>
 <li>Le routeur averti ajoute son ASN dans l'"AS_PATH".</li>
-<li>
-<p>La distance administrative est de 20 pour BGP.</p>
+<li>La distance administrative est de 20 pour BGP.</li>
+</ul>
 </li>
 <li>
-<p>iBGP </p>
-</li>
+<p><strong>iBGP</strong> </p>
+<ul>
 <li>Il est fait pour communiquer entre routeurs BGP dans un même AS (TTL des paquets à 255).</li>
 <li>L'attribut AS_PATH n'est pas modifié par iBGP, il n'y a donc pas de détection possible des boucles avec iBGP.</li>
 <li>Dans le cas d'un AS de transit les routeurs traversés qui n'implémentent qu'un IGP ne connaissent 
-    pas les routes issues de BGP. Il faut donc soit des routes statiques, soit du "tunelling" MPLS, soit du fullmesh iBGP ("route reflector"), soit redistribuer les routes BGP dans l'IGP mais ...<ul>
+  pas les routes issues de BGP. Il faut donc soit des routes statiques, soit du "tunelling" MPLS, soit du fullmesh iBGP ("route reflector"), soit redistribuer les routes BGP dans l'IGP mais ...</li>
 <li>Il n'est pas conseiller de redistribuer les routes BGP dans l'IGP : il peut y avoir beaucoup de routes BGP...trop pour un IGP qui n'est pas taillé pour cela. Il n'y a pas non plus d'équivalence des métriques IGP ni de traductions possibles des attributs BGP dans le "langage" de l'IGP. </li>
 <li>La redistribution des routes de l'IGP dans BGP n'est pas souhaitable non plus : il vaut mieux que tous les routeurs internes à l'AS supportent iBGP avec une topologie "full mesh" qui peut être facilitée par un "RR" (réflecteur de route).</li>
-</ul>
-</li>
-<li>L'attribut "NEXT_HOP" reçu lors de l'échange BGP indique quel est la prochaine IP pour atteindre un réseau. L'attribut "NEXT_HOP" n'est pas mis à jour lors sa transmission via iBGP à un routeur. Ce dernier se retrouve avec un "NEXT_HOP" qui est celui du peer BGP du premier routeur et il lui faut donc un chemin pour le joindre :  <ul>
+<li>L'attribut "NEXT_HOP" reçu lors de l'échange BGP indique quel est la prochaine IP pour atteindre un réseau. L'attribut "NEXT_HOP" n'est pas mis à jour lors sa transmission via iBGP à un routeur. Ce dernier se retrouve avec un "NEXT_HOP" qui est celui du peer BGP du premier routeur et il lui faut donc un chemin pour le joindre :  </li>
 <li>Soit en injectant ce "NEXT_HOP"  dans l'IGP de l'AS (déclaration Network dans le routeur eBGP de bordure de notre AS).</li>
 <li>Soit en utilisant la commande "next-hop-self" qui permet de modifier le "NEXT_HOP" avec l'adresse du routeur.</li>
+<li>La distance administrative de iBGP est de 200. </li>
 </ul>
 </li>
-<li>La distance administrative de iBGP est de 200. </li>
 </ul>
 <h2 id="mp-bgp-multiprotocol-bgp">MP-BGP (multiprotocol BGP)</h2>
 <ul>
 <li>Protocole BGP permet de travailler avec plusieurs familles et sous familles IP.
-Les notions d'"Address Family Identifier" (AFI) et de "Subsequent Address Family Identifier" (SAFI) correspondent au format des préfixes transportés:</li>
+Les notions d'"Address Family Identifier" (<strong>AFI</strong>) et de "Subsequent Address Family Identifier" (<strong>SAFI</strong>) correspondent au format des préfixes transportés:<ul>
 <li>Les adresses IPv4 sont identifiées en AFI =&gt; IPv4 (1) et SAFI = unicast ou multicast (1).</li>
 <li>Les adresses VPN IPv4 sont identifiées en AFI = IPv4 (1), SAFI = VPN (128). Une des particularités des routes VPN est d'avoir un label associé.</li>
+</ul>
+</li>
 <li>On utilise l'attribut "Path Attributes NLRI" afin de transporter ces informations.</li>
 </ul>
-<h2 id="as-number-asn">AS Number (ASN)</h2>
+<h2 id="as-number-asn">AS Number (<strong>ASN</strong>)</h2>
 <ul>
 <li>privés: 64512-65535</li>
 <li>publics: le reste ... les ASN sont assignés par le "IANA"</li>
@@ -464,7 +466,7 @@ Les notions d'"Address Family Identifier" (AFI) et de "Subsequent Address Family
 <li>NOTIFICATION (message d'erreurs).</li>
 <li>KEEPALIVE (vérification que le "peer" est vivant toutes les 60 secondes, au bout de 180 secondes toutes les routes provenant de ce "peer" seront supprimées).</li>
 </ul>
-<h2 id="les-differents-etats-de-la-relation-entre-deux-voisins-bgp-neighbor-state">les différents états de la relation entre deux voisins BGP ("neighbor state")</h2>
+<h2 id="les-differents-etats-de-la-relation-entre-deux-voisins-bgp-neighbor-state">Les différents états de la relation entre deux voisins BGP ("neighbor state")</h2>
 <ul>
 <li>Idle (démarrage de la session connexion au voisin)</li>
 <li>Connect (après 3WayHandshake -&gt; reset -&gt; message OPEN envoyé par le routeur).</li>

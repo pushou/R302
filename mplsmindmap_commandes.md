@@ -203,7 +203,6 @@ show tag-switching tdp neighbor
 
 ## Vérifiez la forwarding table
 ```ios
-
 show tag-switching forwarding-table 
   Local  Outgoing    Prefix            Bytes tag  Outgoing   Next Hop    
   tag    tag or VC   or Tunnel Id      switched   interface              
@@ -219,4 +218,4 @@ show tag-switching forwarding-table
   25     Aggregate   192.168.3.0/24[V] 0                                  
   26     Untagged    192.168.4.0/24[V] 0          Fa2/0      192.168.3.9  
   27     Untagged    192.168.90.0/24[V]0          Fa2/0      192.168.3.9     
-  ```
+```
