@@ -1,5 +1,5 @@
 
 BGP: généralités
 
-{!généralités.mm.md!}
+{!aplat.md!}
 
