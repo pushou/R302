@@ -220,6 +220,9 @@ sh ip bgp neighbors 1.1.1.1 routes
 # liste les réseaux annoncés au voisin
 sh ip bgp neighbors 1.1.1.1 advertised-routes
 
+# Préfixe le plus long
+show ip bgp longer-prefixes
+
 # hard reset ne pas faire en prod 
 clear ip bgp *
 

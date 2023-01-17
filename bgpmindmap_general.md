@@ -71,6 +71,7 @@ markmap:
 - Protocole BGP permet de travailler avec plusieurs familles et sous familles IP.
 Les notions d'"Address Family Identifier" (**AFI**) et de "Subsequent Address Family Identifier" (**SAFI**) correspondent au format des préfixes transportés:
     - Les adresses IPv4 sont identifiées en AFI => IPv4 (1) et SAFI = unicast ou multicast (1).
+    - Les adresses IPv6 sont identifiées en AFI => IPv4 (2) et SAFI = unicast ou multicast (1).
     - Les adresses VPN IPv4 sont identifiées en AFI = IPv4 (1), SAFI = VPN (128). Une des particularités des routes VPN est d'avoir un label associé.
 - On utilise l'attribut "Path Attributes NLRI" afin de transporter ces informations.
       
