@@ -44,17 +44,17 @@ markmap:
 
 ## Algorithme de sélection du meilleur chemin avec BGP
 
-  1. Si on a plusieurs routes vers un réseau, on choisit le plus long chemin qui correspond à la destination (exemple: entre 194.199.0.0/16 et 194.199.227.0/24 on choisit le second chemin car c'est une route plus spécifique).
-  2. Si les routes sont identiques on choisit la distance administrative la plus faible. Elle est de 20 pour eBGP et seules les routes connectées, les routes statiques les résumés de routes EIGRP sont plus prioritaires. 
-- 3.Algorithme de choix en fonction des attributs du plus important au moins important :
-  - WEIGHT (la plus élevée)
-  - LOCAL_PREF (la plus élevée)
-  - Réseaux annoncés avec les commandes "network" ou "aggregate" ou "redistribute".
-  - Métriques IGP.
-  - AS_PATH le plus court
-  - Les chemins dont l'ORIGINE est un IGP sont préférés à ceux dont l'origine est EGP , eux-mêmes préférés aux chemins avec une origine incomplète ou inconnue.
-  - Chemins avec la valeur la MED plus basse.
-  - Chemins appris par eBGP préférés à ceux choisis par iBGP.
-  - Chemins avec le plus petit "router ID".
-  - Chemins qui comportent le moins de sauts iBGP.
-  - Chemins qui viennent du voisin avec l'adresse IP la plus basse.
+  - Si on a plusieurs routes vers un réseau, on choisit le plus long chemin qui correspond à la destination (exemple: entre 194.199.0.0/16 et 194.199.227.0/24 on choisit le second chemin car c'est une route plus spécifique).
+  - Si les routes sont identiques on choisit la distance administrative la plus faible. Elle est de 20 pour eBGP et seules les routes connectées, les routes statiques et les résumés de routes EIGRP sont plus prioritaires.
+  - Algorithme de choix en fonction des attributs du plus important au moins important : 
+    - WEIGHT (la plus élevée)
+    - LOCAL_PREF (la plus élevée)
+    - Réseaux annoncés avec les commandes "network" ou "aggregate" ou "redistribute".
+    - Métriques IGP.
+    - AS_PATH le plus court
+    - Les chemins dont l'ORIGINE est un IGP sont préférés à ceux dont l'origine est EGP , eux-mêmes préférés aux chemins avec une origine incomplète ou inconnue.
+    - Chemins avec la valeur la MED plus basse.
+    - Chemins appris par eBGP préférés à ceux choisis par iBGP.
+    - Chemins avec le plus petit "router ID".
+    - Chemins qui comportent le moins de sauts iBGP.
+    - Chemins qui viennent du voisin avec l'adresse IP la plus basse.
