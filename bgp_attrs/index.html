@@ -1,0 +1,599 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.7">
+    
+    
+      
+        <title>Attributs BGP (texte) - BUT R302 Réseaux d'opérateurs</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.20d9efc8.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#attributs-bgp" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="BUT R302 Réseaux d&#39;opérateurs" class="md-header__button md-logo" aria-label="BUT R302 Réseaux d'opérateurs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            BUT R302 Réseaux d'opérateurs
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Attributs BGP (texte)
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="BUT R302 Réseaux d&#39;opérateurs" class="md-nav__button md-logo" aria-label="BUT R302 Réseaux d'opérateurs" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    BUT R302 Réseaux d'opérateurs
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Généralités BGP (texte)
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bgpmindmap.html" class="md-nav__link">
+        Généralités BGP (mindmap)
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bgp_attrs.html" class="md-nav__link">
+        Attributs BGP (mindmap)
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Attributs BGP (texte)
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Attributs BGP (texte)
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#bgp-supportent-4-types-dattributs-pas-tous-reconnus-par-les-constructeurs" class="md-nav__link">
+    BGP supportent 4 types d'attributs (pas tous reconnus par les constructeurs)
+  </a>
+  
+    <nav class="md-nav" aria-label="BGP supportent 4 types d'attributs (pas tous reconnus par les constructeurs)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#well-known-mandatory" class="md-nav__link">
+    Well-Known Mandatory
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#well-known-discretionary-attributs-reconnus-par-tous-mais-qui-ne-font-pas-forcement-partie-de-la-mise-a-jour-des-routes" class="md-nav__link">
+    Well-Known Discretionary (attributs reconnus par tous mais qui ne font pas forcément partie de la mise à jour des routes).
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optional-transitive-attribut-cree-par-un-constructeur-et-pas-forcement-reconnu-par-dautres-transitif-bgp-laccepte-et-le-transmet-meme-si-son-implementation-ne-le-reconnait-pas" class="md-nav__link">
+    Optional Transitive  (Attribut créé par un constructeur et pas forcément reconnu par d'autres. Transitif, BGP l'accepte et le transmet même si son implémentation ne le reconnaît pas).
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optional-nontransitive" class="md-nav__link">
+    Optional Nontransitive
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#algorithme-de-selection-du-meilleur-chemin-avec-bgp" class="md-nav__link">
+    Algorithme de sélection du meilleur chemin avec BGP
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bgp_cmd.html" class="md-nav__link">
+        Commandes BGP (mindmap)
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../commandes_aplat.mm/" class="md-nav__link">
+        Commandes BGP (texte)
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mplgeneralite.html" class="md-nav__link">
+        Généralités MPLS (mindmap)
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mpls_aplat.mm/" class="md-nav__link">
+        Généralités MPLS (texte)
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mpls_cmd.html" class="md-nav__link">
+        Commandes MPLS (mindmap)
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mpls_cmd_aplat.mm/" class="md-nav__link">
+        Commandes MPLS (texte)
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#bgp-supportent-4-types-dattributs-pas-tous-reconnus-par-les-constructeurs" class="md-nav__link">
+    BGP supportent 4 types d'attributs (pas tous reconnus par les constructeurs)
+  </a>
+  
+    <nav class="md-nav" aria-label="BGP supportent 4 types d'attributs (pas tous reconnus par les constructeurs)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#well-known-mandatory" class="md-nav__link">
+    Well-Known Mandatory
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#well-known-discretionary-attributs-reconnus-par-tous-mais-qui-ne-font-pas-forcement-partie-de-la-mise-a-jour-des-routes" class="md-nav__link">
+    Well-Known Discretionary (attributs reconnus par tous mais qui ne font pas forcément partie de la mise à jour des routes).
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optional-transitive-attribut-cree-par-un-constructeur-et-pas-forcement-reconnu-par-dautres-transitif-bgp-laccepte-et-le-transmet-meme-si-son-implementation-ne-le-reconnait-pas" class="md-nav__link">
+    Optional Transitive  (Attribut créé par un constructeur et pas forcément reconnu par d'autres. Transitif, BGP l'accepte et le transmet même si son implémentation ne le reconnaît pas).
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#optional-nontransitive" class="md-nav__link">
+    Optional Nontransitive
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#algorithme-de-selection-du-meilleur-chemin-avec-bgp" class="md-nav__link">
+    Algorithme de sélection du meilleur chemin avec BGP
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+<h1 id="attributs-bgp">Attributs BGP</h1>
+<h2 id="bgp-supportent-4-types-dattributs-pas-tous-reconnus-par-les-constructeurs">BGP supportent 4 types d'attributs (pas tous reconnus par les constructeurs)</h2>
+<h3 id="well-known-mandatory"><strong>Well-Known Mandatory</strong></h3>
+<ul>
+<li><strong>AS_PATH</strong> : Il contient la liste des AS pour arriver à une destination, incrémenté par l'identifiant de l'AS courante.</li>
+<li><strong>NEXT_HOP</strong> : C'est l'adresse IP du voisin qui a envoyé la mise à jour. Les paquets seront routés à cette adresse pour entrer dans l'AS. </li>
+<li><strong>ORIGIN</strong> : Elle contient une information sur l'origine de la route.</li>
+<li><strong>i</strong> : L'origine est une déclaration à l'aide de la commande Network. </li>
+<li><strong>?</strong> : L'origine est inconnue, ou vient d'une redistribution de routes.</li>
+</ul>
+<h3 id="well-known-discretionary-attributs-reconnus-par-tous-mais-qui-ne-font-pas-forcement-partie-de-la-mise-a-jour-des-routes"><strong>Well-Known Discretionary</strong> (attributs reconnus par tous mais qui ne font pas forcément partie de la mise à jour des routes).</h3>
+<ul>
+<li>LOCAL_PREFERENCE : Il indique aux routeurs BGP d'une même AS quel est le chemin préféré pour une destination donnée.<ul>
+<li>Un chemin avec une préférence locale plus élevée est plus prioritaire.</li>
+<li>La valeur par défaut chez Cisco est de 100.</li>
+<li>Cette valeur est configurée et envoyée aux routeurs iBGP mais pas aux voisins eBGP.</li>
+<li>Le routeur ayant la plus  grand valeur LOCAL_PREF est choisi comme routeur de sortie.</li>
+</ul>
+</li>
+<li>ATOMIC_AGGREGATE_ID : il indique que la route annoncée a été agrégée et permet de tracer l'origine de l'agrégation (une route contient l'ID du routeur, de son AS ainsi que le supernet).</li>
+<li>Cluster List</li>
+</ul>
+<h3 id="optional-transitive-attribut-cree-par-un-constructeur-et-pas-forcement-reconnu-par-dautres-transitif-bgp-laccepte-et-le-transmet-meme-si-son-implementation-ne-le-reconnait-pas"><strong>Optional Transitive</strong>  (Attribut créé par un constructeur et pas forcément reconnu par d'autres. Transitif, BGP l'accepte et le transmet même si son implémentation ne le reconnaît pas).</h3>
+<pre><code>- COMMUNITY peut être utilisé pour filtrer des routes (identique à un TAG).  
+- Par exemple une communauté "No_advertise" indique que les routes tagguées ainsi ne doivent pas être annoncées dans l'AS. La communauté No_Export indique que les routes ne doivent pas être transmises à un autre peer eBPG.
+</code></pre>
+<h3 id="optional-nontransitive"><strong>Optional Nontransitive</strong></h3>
+<pre><code>- L'attribut **MED**:  (Multiple Exit Discriminator) donne des indices aux routeurs extérieurs sur le chemin préféré pour contacter un AS qui a plusieurs points d'entrée.
+    - Un MED petit est préféré à un grand MED ! Le MED est envoyé aux pairs eBGP, qui informent leurs peer IBGP.
+    - Les routeurs IBGP à l'intérieur de l'AS peuvent utiliser le MED, mais ils ne peuvent pas l'envoyer à un routeur eBGP.
+
+- L'attribut **WEIGHT** est propriétaire de CISCO. 
+    - Il est utilisé quand un routeur à plusieurs peers vers un AS donné. 
+    - Il est local au routeur et n'est jamais propagé lors d'un update BGP.
+    - Sa valeur va de 0 à 65535. Le chemin ayant le poids le plus fort est préféré.
+</code></pre>
+<h2 id="algorithme-de-selection-du-meilleur-chemin-avec-bgp">Algorithme de sélection du meilleur chemin avec BGP</h2>
+<ul>
+<li>Si on a plusieurs routes vers un réseau, on choisit le plus long chemin qui correspond à la destination (exemple: entre 194.199.0.0/16 et 194.199.227.0/24 on choisit le second chemin car c'est une route plus spécifique).</li>
+<li>Si les routes sont identiques on choisit la distance administrative la plus faible. Elle est de 20 pour eBGP et seules les routes connectées, les routes statiques et les résumés de routes EIGRP sont plus prioritaires.</li>
+<li>Algorithme de choix en fonction des attributs du plus important au moins important : <ul>
+<li>WEIGHT (la plus élevée)</li>
+<li>LOCAL_PREF (la plus élevée)</li>
+<li>Réseaux annoncés avec les commandes "network" ou "aggregate" ou "redistribute".</li>
+<li>Métriques IGP.</li>
+<li>AS_PATH le plus court</li>
+<li>Les chemins dont l'ORIGINE est un IGP sont préférés à ceux dont l'origine est EGP , eux-mêmes préférés aux chemins avec une origine incomplète ou inconnue.</li>
+<li>Chemins avec la valeur la MED plus basse.</li>
+<li>Chemins appris par eBGP préférés à ceux choisis par iBGP.</li>
+<li>Chemins avec le plus petit "router ID".</li>
+<li>Chemins qui comportent le moins de sauts iBGP.</li>
+<li>Chemins qui viennent du voisin avec l'adresse IP la plus basse.</li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="../bgp_attrs.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Attributs BGP (mindmap)" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Attributs BGP (mindmap)
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../bgp_cmd.html" class="md-footer__link md-footer__link--next" aria-label="Next: Commandes BGP (mindmap)" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Commandes BGP (mindmap)
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.8492ddcf.min.js"></script>
+      
+    
+  </body>
+</html>
