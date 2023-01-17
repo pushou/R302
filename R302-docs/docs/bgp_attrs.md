@@ -1,0 +1,1 @@
+../../bgpmindmap_attributs.md
