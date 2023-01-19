@@ -32,14 +32,13 @@ markmap:
 
 ### **Optional Nontransitive**
 
-    - L'attribut **MED**:  (Multiple Exit Discriminator) donne des indices aux routeurs extérieurs sur le chemin préféré pour contacter un AS qui a plusieurs points d'entrée.
-        - Un MED petit est préféré à un grand MED ! Le MED est envoyé aux pairs eBGP, qui informent leurs peer IBGP.
-        - Les routeurs IBGP à l'intérieur de l'AS peuvent utiliser le MED, mais ils ne peuvent pas l'envoyer à un routeur eBGP.
-    
-    - L'attribut **WEIGHT** est propriétaire de CISCO. 
-        - Il est utilisé quand un routeur à plusieurs peers vers un AS donné. 
-        - Il est local au routeur et n'est jamais propagé lors d'un update BGP.
-        - Sa valeur va de 0 à 65535. Le chemin ayant le poids le plus fort est préféré. 
+  - L'attribut **MED**:  (Multiple Exit Discriminator) donne des indices aux routeurs extérieurs sur le chemin préféré pour contacter un AS qui a plusieurs points d'entrée.
+  - Un MED petit est préféré à un grand MED ! Le MED est envoyé aux pairs eBGP, qui informent leurs peer IBGP.
+  - Les routeurs IBGP à l'intérieur de l'AS peuvent utiliser le MED, mais ils ne peuvent pas l'envoyer à un routeur eBGP.
+  - L'attribut **WEIGHT** est propriétaire de CISCO. 
+      - Il est utilisé quand un routeur à plusieurs peers vers un AS donné. 
+      - Il est local au routeur et n'est jamais propagé lors d'un update BGP.
+      - Sa valeur va de 0 à 65535. Le chemin ayant le poids le plus fort est préféré. 
 
 
 ## Algorithme de sélection du meilleur chemin avec BGP
