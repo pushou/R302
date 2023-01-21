@@ -55,7 +55,7 @@ markmap:
     - La distance administrative est de 20 pour BGP.
   
 - **iBGP** 
-    - Il est fait pour communiquer entre routeurs BGP dans un même AS (TTL des paquets à 255).
+    - Il est fait pour communiquer entre routeurs BGP dans un même AS (TTL des paquets > 1).
     - L'attribut AS_PATH n'est pas modifié par iBGP, il n'y a donc pas de détection possible des boucles avec iBGP.
     - Dans le cas d'un AS de transit les routeurs traversés qui n'implémentent qu'un IGP ne connaissent 
       pas les routes issues de BGP. Il faut donc soit des routes statiques, soit du "tunelling" MPLS, soit du fullmesh iBGP ("route reflector"), soit redistribuer les routes BGP dans l'IGP mais ...

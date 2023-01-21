@@ -286,21 +286,29 @@ router bgp 65535
 
    # Le TTL des paquets eBGP lors de l'établissement d'une session est de 1.
 
-   # Une LoopBack étant à 2 sauts de l'interface du routeur eBGP le peer supprimera 
+   # Contrairement à ce qu'on peut penser le TTL n'a pas besoin d'être de 2 car il n'est décrémenté qu'en sortie d'un routeur et pas d'une **interface** ! Néanmoins la connexion BGP
 
-   # le paquet avant son arrivée à la LoopBack: on change le TTL des paquets eBGP à 2
+   # ne s'ouvre pas car un routeur Cisco ne peut pas se connecter à une interface dans un autre réseau. la commande suivante lui permet donc de by-passer cette restriction en
 
-   # ce n'est pas nécessaire avec iBGP ou le TTL est de 255.
+   # permettant de se connecter à un réseau situé après le réseau directement connecté du voisin BGP. Cette commande laisse le TTL à 1.
+
+
+
+   neighbor 1.1.1.1 disable-connected-check 
+
+
+
+   # On peut aussi utiliser la commande suivante qui elle va modifier le TTL à "2" et permettre la connexion bgp. Elle fonctionne avec eBGP et est nécessaire avec iBGP 
+
+   # car dans ce cas on a plusieurs sauts et le TTL est décrémenté.
+
+
 
    neighbor 1.1.1.1 ebgp-multihop 2
 
 
 
-   # Une autre façon de faire désactiver le besoin de BGP d'avoir une 
 
-   # connexion directe avec le routeur voisin 
-
-   neighbor 1.1.1.1 disable-connected-check
 
 
 
