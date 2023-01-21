@@ -26,7 +26,7 @@ traceroute -A -n -e -i eth0 8.8.8.8
 router bgp  65100
     # par défaut on est prévenu des changements sur le voisin
     bgp log-neighbor-changes
-    # Commande "synchronisation": un routeur BGP de bordure annonce une route à son peer BGP que si cette route est aussi connue de son IGP.
+    # Commande "synchronisation": un routeur BGP de bordure annonce une route à son voisin BGP que si cette route est aussi connue de son IGP.
     # Le but est d'éviter de perdre du trafic dans une AS de transit dans laquelle un routeur qui ne serait pas iBGP deviendrait un trou noir pour le trafic en transit
     # Mais tous les routeurs de nos jours font du iBGP et dialogue entre eux via un "Route Reflector"  ou on utilise des routeurs MPLS qui peuvent transmettre du trafic sans table de routage.   
     # En conséquence la synchronisation est désactivée par défaut sur un Cisco:
@@ -40,7 +40,7 @@ router bgp  65100
     # Network permet de déclarer les réseaux à annoncer. Contrairement à OSPF cette déclaration n'est pas liée à une interface, c'est juste une déclaration...
     network 192.168.1.0 mask 255.255.255.0
     network 192.168.2.0 mask 255.255.255.0      
-    # soft-reconfiguration permet d'accéder aux routes reçues d'un peer BGP
+    # soft-reconfiguration permet d'accéder aux routes reçues d'un voisin BGP
     # avec la commande "sh ip bgp neighbors 1.1.1.1 received-routes"
     neighbor 10.12.1.1 soft-reconfiguration inbound
 ```
@@ -79,11 +79,11 @@ router bgp 65535
  
 
    # On indique avec update-source au routeur d'utiliser toutes les interfaces
-   # opérationnelles pour établir les connexions  BGP TCP avec le peer. 
+   # opérationnelles pour établir les connexions  BGP TCP avec le voisin. 
    # tant que Loopback1 est "up" et est configurée avec une adresse IP
    
    neighbor 1.1.1.1 update-source Loopback1
-   # L'AS number est le même ici que celui de notre routeur. Le "peer" étant dans notre AS on a donc une session iBGP avec ce "peer"
+   # L'AS number est le même ici que celui de notre routeur. Le "voisin" étant dans notre AS on a donc une session iBGP avec lui.
    neighbor 5.5.5.5 remote-as 65535
    neighbor 5.5.5.5 update-source Loopback1
 
@@ -104,7 +104,7 @@ ip route 1.1.1.1 255.255.255.255 11.0.0.100
 
 ## Configuration BGP avancée 
 
-Cisco considère que les peers BGP sont IPv4... ce qui n'est pas forcément vrai.
+Cisco considère que les voisins BGP sont IPv4... ce qui n'est pas forcément vrai.
 Il vaut donc mieux l'éviter en activant spécifiquement les protocoles utilisés par chaque voisin.
 ```ios
 interface Loopback3
@@ -121,7 +121,7 @@ interface FastEthernet0/1
  duplex auto
  speed auto
 !
-# C'est OSPF qui permet au peer BGP de dialoguer de loopback à loopback 
+# C'est OSPF qui permet au voisins BGP de dialoguer de loopback à loopback 
 router ospf 1
  log-adjacency-changes
  passive-interface FastEthernet0/1
@@ -129,7 +129,7 @@ router ospf 1
  network 10.0.23.0 0.0.0.255 area 0
 !
 router bgp 300
-# Plus de peer IPV4 actif par défaut:
+# Un voisin IPV4 n'est plus actif par défaut avec cette commande:
  no bgp default ipv4-unicast
  bgp log-neighbor-changes
  neighbor 1.1.1.1 remote-as 300
@@ -137,7 +137,7 @@ router bgp 300
  neighbor 35.0.0.1 remote-as 200
  !
  address-family ipv4
-  # activations explicites des "peers"
+  # activations explicites des "voisins"
   neighbor 1.1.1.1 activate
   neighbor 35.0.0.1 activate
   neighbor 1.1.1.1 soft-reconfiguration inbound
@@ -161,7 +161,7 @@ aggregate address 10.202.0.0 255.255.0.0 as-set summary-only
   
 ## injection de la route par défaut
 
-On ne peut annoncer une route à un peer BGP seulement si cette route est présente dans la table de routage (RIB). L'astuce est d'annoncer une route statique qui ne sera jamais sélectionnée afin que la route soit présente dans la table de routage et puisse être diffuser par BGP comme ici sur une route par défaut.
+On ne peut annoncer une route à un voisin BGP seulement si cette route est présente dans la table de routage (RIB). L'astuce est d'annoncer une route statique qui ne sera jamais sélectionnée afin que la route soit présente dans la table de routage et puisse être diffuser par BGP comme ici sur une route par défaut.
 
 ```ios
 router bgp 65535

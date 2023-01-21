@@ -216,7 +216,7 @@ router bgp  65100
 
     bgp log-neighbor-changes
 
-    # Commande "synchronisation": un routeur BGP de bordure annonce une route à son peer BGP que si cette route est aussi connue de son IGP.
+    # Commande "synchronisation": un routeur BGP de bordure annonce une route à son voisin BGP que si cette route est aussi connue de son IGP.
 
     # Le but est d'éviter de perdre du trafic dans une AS de transit dans laquelle un routeur qui ne serait pas iBGP deviendrait un trou noir pour le trafic en transit
 
@@ -244,7 +244,7 @@ router bgp  65100
 
     network 192.168.2.0 mask 255.255.255.0      
 
-    # soft-reconfiguration permet d'accéder aux routes reçues d'un peer BGP
+    # soft-reconfiguration permet d'accéder aux routes reçues d'un voisin BGP
 
     # avec la commande "sh ip bgp neighbors 1.1.1.1 received-routes"
 
@@ -314,7 +314,7 @@ router bgp 65535
 
    # On indique avec update-source au routeur d'utiliser toutes les interfaces
 
-   # opérationnelles pour établir les connexions  BGP TCP avec le peer. 
+   # opérationnelles pour établir les connexions  BGP TCP avec le voisin. 
 
    # tant que Loopback1 est "up" et est configurée avec une adresse IP
 
@@ -322,7 +322,7 @@ router bgp 65535
 
    neighbor 1.1.1.1 update-source Loopback1
 
-   # L'AS number est le même ici que celui de notre routeur. Le "peer" étant dans notre AS on a donc une session iBGP avec ce "peer"
+   # L'AS number est le même ici que celui de notre routeur. Le "voisin" étant dans notre AS on a donc une session iBGP avec lui.
 
    neighbor 5.5.5.5 remote-as 65535
 
@@ -358,7 +358,7 @@ ip route 1.1.1.1 255.255.255.255 11.0.0.100
 
 </code></pre>
 <h2 id="configuration-bgp-avancee">Configuration BGP avancée</h2>
-<p>Cisco considère que les peers BGP sont IPv4... ce qui n'est pas forcément vrai.</p>
+<p>Cisco considère que les voisins BGP sont IPv4... ce qui n'est pas forcément vrai.</p>
 <p>Il vaut donc mieux l'éviter en activant spécifiquement les protocoles utilisés par chaque voisin.</p>
 <pre><code class="language-ios">
 interface Loopback3
@@ -389,7 +389,7 @@ interface FastEthernet0/1
 
 !
 
-# C'est OSPF qui permet au peer BGP de dialoguer de loopback à loopback 
+# C'est OSPF qui permet au voisins BGP de dialoguer de loopback à loopback 
 
 router ospf 1
 
@@ -405,7 +405,7 @@ router ospf 1
 
 router bgp 300
 
-# Plus de peer IPV4 actif par défaut:
+# Un voisin IPV4 n'est plus actif par défaut avec cette commande:
 
  no bgp default ipv4-unicast
 
@@ -421,7 +421,7 @@ router bgp 300
 
  address-family ipv4
 
-  # activations explicites des "peers"
+  # activations explicites des "voisins"
 
   neighbor 1.1.1.1 activate
 
@@ -452,7 +452,7 @@ aggregate address 10.202.0.0 255.255.0.0 as-set summary-only
 
 </code></pre>
 <h2 id="injection-de-la-route-par-defaut">injection de la route par défaut</h2>
-<p>On ne peut annoncer une route à un peer BGP seulement si cette route est présente dans la table de routage (RIB). L'astuce est d'annoncer une route statique qui ne sera jamais sélectionnée afin que la route soit présente dans la table de routage et puisse être diffuser par BGP comme ici sur une route par défaut.</p>
+<p>On ne peut annoncer une route à un voisin BGP seulement si cette route est présente dans la table de routage (RIB). L'astuce est d'annoncer une route statique qui ne sera jamais sélectionnée afin que la route soit présente dans la table de routage et puisse être diffuser par BGP comme ici sur une route par défaut.</p>
 <pre><code class="language-ios">
 router bgp 65535
 
