@@ -161,7 +161,7 @@ aggregate address 10.202.0.0 255.255.0.0 as-set summary-only
   
 ## injection de la route par défaut
 
-On ne peut annoncer une route à un voisin BGP seulement si cette route est présente dans la table de routage (RIB). L'astuce est d'annoncer une route statique qui ne sera jamais sélectionnée afin que la route soit présente dans la table de routage et puisse être diffuser par BGP comme ici sur une route par défaut.
+On ne peut annoncer une route à un voisin BGP seulement si cette route est présente dans la table de routage (RIB). L'astuce est d'annoncer une route statique qui ne sera jamais sélectionnée afin que la route soit présente dans la table de routage et puisse être diffusée par BGP comme ici sur une route par défaut.
 
 ```ios
 router bgp 65535
@@ -200,7 +200,17 @@ RPKI validation codes: V valid, I invalid, N Not found
  *>  0.0.0.0          192.168.1.1              0         32768 i
  *>  2.2.2.2/32       10.11.0.2                0         32768 ?
 ```
+## Route Reflector
 
+```ios
+# sur le RR
+router bgp 100
+  neighbor 192.168.27.2 remote-as 100
+  neighbor 192.168.27.2 route-reflector-client
+# sur le client du route reflector
+router bgp 100
+  neighbor 192.168.27.7 remote-as 100
+```
 ## Commandes de debug:
   
 ### running
@@ -263,7 +273,7 @@ Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State
  - Quand un message BGP UPDATE arrive, l'information est mise dans la table BGP.
  - L'algorithme BGP cherche le meilleur chemin.
  - La RIB du routeur est mise à jour et les voisins aussi.
- - la version de la table est incrémentée pour chaque changement de **meilleur chemin**
+ - la version de la table est ensuite incrémentée lors de chaque changement de **meilleur chemin**.
   
 
 # topologie
