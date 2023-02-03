@@ -476,7 +476,7 @@ router bgp 300
 aggregate address 10.202.0.0 255.255.0.0 as-set summary-only 
 </code></pre>
 <h2 id="injection-de-la-route-par-defaut">injection de la route par défaut</h2>
-<p>On ne peut annoncer une route à un voisin BGP seulement si cette route est présente dans la table de routage (RIB). L'astuce est d'annoncer une route statique qui ne sera jamais sélectionnée afin que la route soit présente dans la table de routage et puisse être diffuser par BGP comme ici sur une route par défaut.</p>
+<p>On ne peut annoncer une route à un voisin BGP seulement si cette route est présente dans la table de routage (RIB). L'astuce est d'annoncer une route statique qui ne sera jamais sélectionnée afin que la route soit présente dans la table de routage et puisse être diffusée par BGP comme ici sur une route par défaut.</p>
 <pre><code class="language-ios">router bgp 65535
    network 0.0.0.0
 
@@ -503,6 +503,15 @@ RPKI validation codes: V valid, I invalid, N Not found
      Network          Next Hop            Metric LocPrf Weight Path
  *&gt;  0.0.0.0          192.168.1.1              0         32768 i
  *&gt;  2.2.2.2/32       10.11.0.2                0         32768 ?
+</code></pre>
+<h2 id="route-reflector">Route Reflector</h2>
+<pre><code class="language-ios"># sur le RR
+router bgp 100
+  neighbor 192.168.27.2 remote-as 100
+  neighbor 192.168.27.2 route-reflector-client
+# sur le client du route reflector
+router bgp 100
+  neighbor 192.168.27.7 remote-as 100
 </code></pre>
 <h2 id="commandes-de-debug">Commandes de debug:</h2>
 <h3 id="running">running</h3>
@@ -560,7 +569,7 @@ Neighbor        V           AS MsgRcvd MsgSent   TblVer  InQ OutQ Up/Down  State
 <li>Quand un message BGP UPDATE arrive, l'information est mise dans la table BGP.</li>
 <li>L'algorithme BGP cherche le meilleur chemin.</li>
 <li>La RIB du routeur est mise à jour et les voisins aussi.</li>
-<li>la version de la table est incrémentée pour chaque changement de <strong>meilleur chemin</strong></li>
+<li>la version de la table est ensuite incrémentée lors de chaque changement de <strong>meilleur chemin</strong>.</li>
 </ul>
 <h1 id="topologie">topologie</h1>
 <ul>
